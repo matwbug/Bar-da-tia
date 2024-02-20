@@ -1,0 +1,63 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Estilos globais */
+
+@layer base {
+    body {
+        @apply dark:bg-[#111111] bg-light-default dark:text-white text-black
+    }
+    *::-webkit-scrollbar-thumb {
+        @apply dark:bg-default-500 border-r-[14px]
+        
+    }
+
+    *::-webkit-scrollbar-track {
+        @apply dark:bg-default-900 border-r-[5px]
+    }
+
+    *::-webkit-scrollbar{
+        @apply w-[8px]
+    }
+}
+
+.container {
+    @apply mx-auto w-full max-w-[1200px] px-6
+}
+
+
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    width: 100%;
+    height: 100%; 
+    max-width: 100vw;
+    overflow-x: hidden;
+    overflow-y: auto; 
+}
+
+button {
+    border: none;
+}
+
+a { text-decoration: none; }
+
+img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
