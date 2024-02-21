@@ -41,10 +41,35 @@ const config: Config = {
             '800': '#3f21b6',
             '900': '#361d95',
             '950': '#1e1065',
+          },
+          background: {
+            '50': '#f6f6f6',
+            '100': '#e7e7e7',
+            '200': '#d1d1d1',
+            '300': '#b0b0b0',
+            '400': '#888888',
+            '500': '#6d6d6d',
+            '600': '#5d5d5d',
+            '700': '#4f4f4f',
+            '800': '#454545',
+            '900': '#3d3d3d',
+            '950': '#111111',
           }
         },
         light: {
-          default: "white",
+          background: { 
+            '50': '#f8f8f8',
+            '100': '#f1f1f1',
+            '200': '#dcdcdc',
+            '300': '#bdbdbd',
+            '400': '#989898',
+            '500': '#7c7c7c',
+            '600': '#656565',
+            '700': '#525252',
+            '800': '#464646',
+            '900': '#3d3d3d',
+            '950': '#292929',
+          }, 
           primary: {
             '50': '#fff0f3',
             '100': '#ffdde4',
@@ -62,16 +87,18 @@ const config: Config = {
       },
       backgroundImage: {
         'hero-gradient': "linear-gradient(90deg, rgba(4,7,14,1) 0%, rgba(17,24,39,1) 100%)",
+        'login-gradient': "linear-gradient(125deg, rgba(92,6,23,1) 0%, rgba(244,31,74,1) 55%, rgba(117,3,25,0.9332107843137255) 100%)",
         'hero-image': "url(/hero-image.png)",
       },
       fontFamily: {
-        bebas: ['var(--font-bebas)', 'monospace']
+        bebas: ['var(--font-bebas)', 'monospace'],
+        oswald: ['var(--font-oswald)', 'sans-serif']
       }
     },
     
   },
   variants: {},
-  darkMode: "media",
+  darkMode: "class",
   plugins: [
     nextui({
       addCommonColors: true,

@@ -8,7 +8,7 @@ import { Roboto, Bebas_Neue } from 'next/font/google'
 
 import "../global.css"
 import Logo from "../components/Logo";
-import Header from "../components/header";
+import Header from "../components/pages/home/header";
 
 export const metadata: Metadata = {
   title: 'Bar da Tia',

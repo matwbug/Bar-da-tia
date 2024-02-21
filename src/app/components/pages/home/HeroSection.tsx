@@ -10,8 +10,8 @@ export const listaProdutos: produtoProps[] = [
         image: "/cerveja-original.png",
         preco: 1.81,
         quantidade: 2,
-        promocao_relampago: true,
-        preco_atacado: false
+        promocao: false,
+        atacado: false
     },
     {
         id: 2,
@@ -20,28 +20,28 @@ export const listaProdutos: produtoProps[] = [
         image: "/cerveja-heineken.png",
         preco: 2.69,
         quantidade: 5,
-        promocao_relampago: true,
-        preco_atacado: true
+        promocao: true,
+        atacado: true
     },
     {
         id: 3,
-        name: "Salgadinho Fandangos 45g",
+        name: "Salgadinho Fandangos",
         description: "Salgadinho Fandangos de presunto (45g), snack crocante e salgado, é uma opção popular de petisco para acompanhar momentos de lazer.",
         image: "/salgadinho-fandangos.png",
         preco: 5,
         quantidade: 1,
-        promocao_relampago: true,
-        preco_atacado: false
+        promocao: true,
+        atacado: false
     },
     {
         id: 4,
-        name: "Refrigerante Coca Cola 350ml",
+        name: "Refrig Coca Cola 350ml",
         description: "O refrigerante Coca-Cola 350ml é uma bebida refrescante e popular, conhecida por seu sabor único e distintivo. Embalada em uma garrafa de 350ml, oferece uma experiência de consumo refrescante e satisfatória.",
         image: "/cocacola-lata.png",
         preco: 3.69,
         quantidade: 1,
-        promocao_relampago: true,
-        preco_atacado: false
+        promocao: false,
+        atacado: true
     },
 ]
 
@@ -49,16 +49,14 @@ export const HeroSection = () => {
     return(
         <section className="w-full mt-10">
             <div className="container flex flex-col items-start w-full gap-5">
-                <h1 className="text-2xl text-pretty">Produtos em promoção 🔥</h1>
-                <div className="flex flex-row gap-2 items-center justify-start flex-wrap sm:justify-center">
+                <div className="flex flex-row gap-2 items-start justify-start flex-wrap sm:justify-center">
                     {listaProdutos
-                    .filter(item => item.promocao_relampago) // Filtrando por apenas produtos em promoção
+                    // .filter(item => item.promocao) // Filtrando por apenas produtos em promoção
                     .map(item => { // Mapeando os produtos
                         return <CardProduto key={item.name} item={item} />
                     })}
                 </div>
             </div>
-            
         </section>
     )
 }

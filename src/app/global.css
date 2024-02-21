@@ -6,7 +6,7 @@
 
 @layer base {
     body {
-        @apply dark:bg-[#111111] bg-light-default dark:text-white text-black
+        @apply dark:bg-dark-background-950 bg-light-background-100 dark:text-white text-black
     }
     *::-webkit-scrollbar-thumb {
         @apply dark:bg-default-500 border-r-[14px]
@@ -26,10 +26,6 @@
     @apply mx-auto w-full max-w-[1200px] px-6
 }
 
-
-
-
-
 * {
     margin: 0;
     padding: 0;
@@ -39,7 +35,7 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-html, body {
+html, body, [data-overlay-container] {
     width: 100%;
     height: 100%; 
     max-width: 100vw;

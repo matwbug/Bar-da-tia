@@ -1,11 +1,9 @@
 'use client'
 
-import { Avatar, Button, Input, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
-import Logo from "../Logo";
-import Link from "next/link";
-import { PiFacebookLogoBold, PiInstagramLogoBold } from "react-icons/pi";
+import { Input, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
+import Logo from "../../../Logo";
 import { BiSearch } from "react-icons/bi";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../../contexts/AuthContext";
 import { NavNotLogged } from "./NavNotLogged";
 import { NavLogged } from "./NavLogged";
 import { CartNavbar } from "./CartNavbar";
@@ -14,7 +12,7 @@ export default function Header(){
     const {isAuthenticated} = useAuth()
 
     return(
-        <Navbar maxWidth="full" className="w-screen align-middle text-black dark:text-white bg-dark">
+        <Navbar maxWidth="full" className="container w-screen align-middle text-black dark:text-white bg-dark">
           <NavbarBrand className="flex-row space-x-2">
             <Logo variant="withName"/>
           </NavbarBrand>
@@ -35,8 +33,10 @@ export default function Header(){
               />
             </NavbarItem>
           </NavbarContent>
-          <NavbarContent justify="end">
-            <CartNavbar />
+          <NavbarContent justify="end" className="flex flex-row gap-5">
+            <NavbarItem>
+              <CartNavbar />
+            </NavbarItem>
             {
               !isAuthenticated 
               ? <NavNotLogged />

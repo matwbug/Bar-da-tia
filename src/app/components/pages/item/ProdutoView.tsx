@@ -4,6 +4,7 @@ import { CiDiscount1 } from "react-icons/ci"
 import { listaProdutos } from "../home/HeroSection"
 import { FaCartShopping } from "react-icons/fa6"
 import sqlite from 'sqlite3'
+import { RelatedProdutos } from "./RelatedProdutos"
 
 export const ProdutoView = ({produto}: {
     produto: produtoProps
@@ -11,12 +12,12 @@ export const ProdutoView = ({produto}: {
    
     return(
         <main className="flex flex-col container items-center">
-            <div className="w-full rounded flex items-center justify-center md:flex-row flex-col gap-1">
-                <div className="min-w-300px p-5">
+            <div className="w-full rounded flex items-center justify-center flex-col gap-1 lg:flex-row">
+                <div className="min-w-300px p-5 bg-light-background-100">
                     <Image 
                         src={produto.image}
                         alt={produto.name}
-                        width={350}
+                        width={300}
                     />
                 </div>
                 <div className="flex flex-col gap-5 max-w-[700px]">
@@ -25,12 +26,13 @@ export const ProdutoView = ({produto}: {
                         <span className="font-light text-gray-400">{produto.description}</span>
                     </div>
                     <div className="flex flex-row gap-6 items-center justify-start ">
-                        <div className="flex flex-col gap-1 justify-start">
+                        {produto.atacado && 
+                            <div className="flex flex-col gap-1 justify-start">
                             <span className="text-emerald-400 font-medium text-xl">
                                 {(produto.preco - (produto.preco * 0.05)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}
-                            </span>
+                            </span>     
                             <span className="text-tiny bg-emerald-400 p-1 rounded font-light">A PARTIR DE 3 UN</span>
-                        </div>
+                        </div>}
                         <div className="flex flex-col gap-1 justify-start">
                             <span className="font-medium text-xl">
                                 {(produto.preco).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}
@@ -40,24 +42,11 @@ export const ProdutoView = ({produto}: {
                     </div>
                     <div className="flex flex-col gap-3">
                         <span className="flex flex-row gap-1 text-gray-400 items-center justify-start"> <CiDiscount1 size={20}/> Desconto aplicado no momento da compra no carrinho</span>
-                        <Button variant="flat" color="primary" className="max-w-60"><FaCartShopping /> Adicionar</Button>
+                        <Button variant="flat" color="primary" className="max-w-96" fullWidth><FaCartShopping /> Adicionar</Button>
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col justify-center items-start gap-2 mt-10">
-                <p className="font-light text-large text-white text-left">Produtos relacionados</p>
-                <div className="flex flex-row gap-3 justify-center items-center">
-                {
-                    listaProdutos
-                    .filter(item => item !== produto)
-                    .map(item => {
-                        return(
-                            <CardProduto key={`item_${item.name}`} item={item}/>
-                        )
-                    })
-                }
-                </div>
-            </div>
+            <RelatedProdutos produto={produto} />
         </main>
     )
 }
