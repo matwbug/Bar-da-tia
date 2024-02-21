@@ -6,7 +6,7 @@ import clsx from "clsx"
 import { useEffect, useState } from "react"
 import { CiDeliveryTruck } from "react-icons/ci"
 import { FaArrowDown, FaMinus, FaPlus, FaTruck } from "react-icons/fa"
-import { useCart } from "../../contexts/CartContext";
+import { useCart } from "../../../../contexts/cartContext";
 
 export type produtoProps = {
     id: number

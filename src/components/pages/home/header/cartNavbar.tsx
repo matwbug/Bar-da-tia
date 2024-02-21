@@ -2,9 +2,9 @@
 
 import { Button, Link, Popover, PopoverContent, PopoverTrigger, User } from "@nextui-org/react"
 import { FaCartShopping } from "react-icons/fa6"
-import { useCart } from "../../../contexts/CartContext"
-import { CartCardPopover } from "./CartCardPopover"
-import { CartEmpty } from "./CartEmpty"
+import { useCart } from "../../../../../contexts/cartContext"
+import { CartCardPopover } from "./cartCardPopover"
+import { CartEmpty } from "./cartEmpty"
 
 export const CartNavbar = () => {
     const { cart } = useCart()

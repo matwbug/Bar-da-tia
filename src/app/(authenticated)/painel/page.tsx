@@ -1,10 +1,19 @@
-import { PaginaLogin } from "@/app/components/pages/painel/home/PaginaLogin";
+'use client'
 
-/* eslint-disable react/no-unescaped-entities */
+import { useAuth } from "@/contexts/authContext";
+import { useRouter } from "next/navigation";
+
 export default function Home(){
-    return (
-        <>
-            <PaginaLogin />
-        </>
+
+    const { isAuthenticated } = useAuth()
+    const { push } = useRouter()
+
+    if(!isAuthenticated){
+        return push('/login')
+    }
+
+    return(
+       <>penis</>
     )
+    
 }

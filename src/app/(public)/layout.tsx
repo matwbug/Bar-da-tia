@@ -6,9 +6,7 @@ import Providers from "./providers";
 
 import { Roboto, Bebas_Neue } from 'next/font/google'
 
-import "../global.css"
-import Logo from "../components/Logo";
-import Header from "../components/pages/home/header";
+import "@/components/style/global.css"
 
 export const metadata: Metadata = {
   title: 'Bar da Tia',

@@ -1,5 +1,5 @@
 import { Image } from "@nextui-org/react"
-import { produtoProps } from "../CardProduto"
+import { produtoProps } from "../cardProduto"
 
 export const CartCardPopover = ({item, quantity}: {
     item: produtoProps

@@ -1,9 +1,7 @@
 'use client'
 
+import { produtoProps } from "@/components/pages/home/cardProduto";
 import { ReactNode, createContext, useContext, useState } from "react";
-import { produtoProps } from "../pages/home/CardProduto";
-import { useAuth } from "./AuthContext";
-import { listaProdutos } from "../pages/home/HeroSection";
 
 interface CartProps{
     total: number

@@ -1,8 +1,8 @@
 import { Button, Image, Link } from "@nextui-org/react";
 
-export default function Logo({variant = "normal"}: {
+export const Logo = ({variant = "normal"}: {
     variant?: "normal" | "withName"
-}){
+}) =>{
     return(
         <Link href="/">
             <div className="flex flex-row space-x-1 cursor-pointer justify-center items-end">

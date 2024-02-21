@@ -1,6 +1,6 @@
-import { listaProdutos } from "@/app/components/pages/home/HeroSection"
-import { ProdutoNotExists } from "@/app/components/pages/item/ProdutoNotExists"
-import { ProdutoView } from "@/app/components/pages/item/ProdutoView"
+import { listaProdutos } from "@/components/pages/home/heroSection"
+import { ProdutoNotExists } from "@/components/pages/item/produtoNotExists"
+import { ProdutoView } from "@/components/pages/item/produtoView"
 
 export default function ItemIndex({params}: {
     params: {

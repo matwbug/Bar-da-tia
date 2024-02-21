@@ -1,12 +1,12 @@
 'use client'
 
 import { Input, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
-import Logo from "../../../Logo";
+import Logo from "../../../logo";
 import { BiSearch } from "react-icons/bi";
-import { useAuth } from "../../../contexts/AuthContext";
-import { NavNotLogged } from "./NavNotLogged";
-import { NavLogged } from "./NavLogged";
-import { CartNavbar } from "./CartNavbar";
+import { useAuth } from "../../../../../contexts/authContext";
+import { NavNotLogged } from "./navNotLogged";
+import { NavLogged } from "./navLogged";
+import { CartNavbar } from "./cartNavbar";
 
 export default function Header(){
     const {isAuthenticated} = useAuth()

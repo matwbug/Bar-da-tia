@@ -3,8 +3,8 @@
 import { NextUIProvider } from "@nextui-org/react"
 import { useRouter } from "next/navigation"
 import { ReactNode } from "react"
-import { AuthProvider } from "../components/contexts/AuthContext"
-import { CartProvider } from "../components/contexts/CartContext"
+import { AuthProvider } from "../../contexts/authContext"
+import { CartProvider } from "../../contexts/cartContext"
 
 export default function Providers({children}: {children: ReactNode}){
     const router = useRouter()

@@ -1,13 +1,13 @@
 'use client'
 
 import { Avatar, Button, Input, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
-import Logo from "../../../Logo";
+import Logo from "../../../../logo";
 import Link from "next/link";
 import { PiFacebookLogoBold, PiInstagramLogoBold } from "react-icons/pi";
 import { BiSearch } from "react-icons/bi";
-import { useAuth } from "../../../contexts/AuthContext";
-import { NavNotLogged } from "../../home/header/NavNotLogged";
-import { NavLogged } from "../../home/header/NavLogged";
+import { useAuth } from "../../../../../../contexts/authContext";
+import { NavNotLogged } from "../../../home/header/navNotLogged";
+import { NavLogged } from "../../../home/header/navLogged";
 
 export default function HeaderPainel(){
     const { isAuthenticated } = useAuth()

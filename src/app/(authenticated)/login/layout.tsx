@@ -1,11 +1,8 @@
 import { Metadata } from "next";
-
 import { Roboto, Bebas_Neue, Oswald } from 'next/font/google'
 
 import "@/components/style/global.css"
 import Providers from "@/app/(public)/providers";
-import HeaderPainel from "@/components/pages/painel/layout/header";
-import SidebarPainel from "@/components/pages/painel/layout/sidebar";
 
 export const metadata: Metadata = {
   title: 'Bar da Tia',
@@ -35,6 +32,7 @@ const FontBebasNeue = Bebas_Neue({
   subsets: ['latin']
 })
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -44,9 +42,8 @@ export default function RootLayout({
         <html lang="pt-br" className={`${FontBebasNeue.variable} ${FontRoboto.variable} ${FontOswald.variable}`}>
             <body className="flex flex-col font-sans">
                 <Providers>
-                    <HeaderPainel />
+                    {/* <Header /> */}
                     <main className="h-full w-full">
-                      <SidebarPainel />
                       {children}
                     </main>
                 </Providers>
