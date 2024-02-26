@@ -1,8 +1,7 @@
-import { Metadata } from "next";
-import { Roboto, Bebas_Neue, Oswald } from 'next/font/google'
+import Providers from "@/app/(public)/providers"
+import { Metadata } from "next"
+import { Bebas_Neue, Oswald, Roboto } from "next/font/google"
 
-import "@/components/style/global.css"
-import Providers from "@/app/(public)/providers";
 
 export const metadata: Metadata = {
   title: 'Bar da Tia',
@@ -32,22 +31,24 @@ const FontBebasNeue = Bebas_Neue({
   subsets: ['latin']
 })
 
+import "@/components/style/global.css"
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-    return (
-        <html lang="pt-br" className={`${FontBebasNeue.variable} ${FontRoboto.variable} ${FontOswald.variable}`}>
-            <body className="flex flex-col font-sans">
-                <Providers>
-                    {/* <Header /> */}
-                    <main className="h-full w-full">
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="pt-br" className={`${FontBebasNeue.variable} ${FontRoboto.variable} ${FontOswald.variable}`}>
+          <body className="flex flex-col font-sans">
+              <Providers>
+                  <main className="h-full w-full flex flex-row">
+                    <div className={"w-full bg-light-background-200/100"} style={{width: "calc(100%-400px)"}}>
                       {children}
-                    </main>
-                </Providers>
-            </body>
-        </html>
-    );
+                    </div>
+                  </main>
+              </Providers>
+          </body>
+      </html>
+  )
 }

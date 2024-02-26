@@ -1,9 +1,10 @@
-import { Avatar, Button, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
+import { Avatar, Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react"
 import { signOut, useSession } from "next-auth/react"
+import Link from "next/link"
 import { MdOutlineSpaceDashboard } from "react-icons/md"
 import { VscSignOut } from "react-icons/vsc"
 
-export const NavLogged = () => {
+export const NavbarPainel = () => {
     const { data } = useSession()
 
     return(

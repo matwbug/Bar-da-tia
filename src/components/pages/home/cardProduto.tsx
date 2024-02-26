@@ -6,17 +6,22 @@ import clsx from "clsx"
 import { useEffect, useState } from "react"
 import { CiDeliveryTruck } from "react-icons/ci"
 import { FaArrowDown, FaMinus, FaPlus, FaTruck } from "react-icons/fa"
-import { useCart } from "../../../../contexts/cartContext";
+import { useCart } from "@/contexts/cartContext";
 
 export type produtoProps = {
     id: number
     name: string
     description: string
+    slug: string
     preco: number
     image: string
     quantidade: number
     promocao: boolean
+    promocao_preco: number | null
     atacado: boolean
+    atacado_minquantidade: number | null
+    vendas: number
+    desativado: boolean
 }
 
 export const CardProduto = ({item}: {

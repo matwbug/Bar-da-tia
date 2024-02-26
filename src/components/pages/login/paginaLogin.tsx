@@ -1,12 +1,13 @@
+'use client'
 
-import Logo from "@/app/components/logo"
 import { Button, Image, Input, Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react"
 import React, { useEffect, useState } from "react"
 import { motion } from 'framer-motion'
 import { GiCheckMark } from "react-icons/gi"
 import { CiCircleCheck } from "react-icons/ci"
-import { useAuth } from "@/contexts/authContext"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
+import {} from 'next-auth'
+import { signIn, useSession } from "next-auth/react"
 
 
 export const PaginaLogin = () => {
@@ -15,16 +16,20 @@ export const PaginaLogin = () => {
 
     const [isValid, setValid] = useState<'default' | 'error' | 'success'>('default')
 
-    const { isAuthenticated, session, signIn } = useAuth()
-
     const { push } = useRouter()
+    const { data } = useSession()
 
-    const handleSubmitLogin = (e: React.FormEvent) => {
+    const handleSubmitLogin = async (e: React.FormEvent) => {
         e.preventDefault()
-        if(signIn({username: username, password: password}) === 'success'){
+
+        const result = await signIn('credentials', {
+            redirect: false, 
+            username, password
+        })
+        if(result?.ok){
             setValid('success')  
 
-            if(session.user && session.user.role === 'ADMIN'){
+            if(data?.user?.name === 'admin'){
                 push('/painel/')
             }
             else{
@@ -58,7 +63,7 @@ export const PaginaLogin = () => {
             </motion.div>
             <div className="w-1/2 h-screen text-black rounded-sm flex flex-col justify-center items-center px-5">
                 <div className="w-[450px] py-8 px-5 rounded-md flex justify-center items-center flex-col gap-4 bg-light-background-50">
-                    <p className="text-zinc-700 font-oswald text-lg">Informe o seu e-mail para continuar</p>
+                    <p className="text-zinc-700 font-oswald text-lg">Informe seus dados para continuar</p>
                     <form className="w-full flex flex-col gap-3 justify-center items-center" onSubmit={handleSubmitLogin}>
                         <div className="flex flex-col gap-1 w-full justify-center items-center">
                             <Input 

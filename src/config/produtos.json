@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Cerveja Original 269ml",
+    "description": "A Cerveja Original 269ml é uma pilsen brasileira, com sabor refrescante.",
+    "slug": "cerveja-original-269ml",
+    "image": "/produtos/cerveja-original.png",
+    "preco": 25,
+    "quantidade": 122548,
+    "promocao": false,
+    "promocao_preco": 1.99,
+    "atacado": true,
+    "atacado_minquantidade": 20,
+    "vendas": 5,
+    "desativado": false
+  },
+  {
+    "id": 2,
+    "name": "Cerveja Heineken 600ml",
+    "description": "A Heineken 600ml é uma cerveja lager premium originária da Holanda. Conhecida pelo seu sabor equilibrado, levemente amargo, e teor alcoólico em torno de 5%. Uma escolha popular para quem aprecia cervejas de qualidade.",
+    "slug": "cerveja-heineken-600ml",
+    "image": "/produtos/cerveja-heineken.png",
+    "preco": 2.69,
+    "quantidade": 100,
+    "promocao": false,
+    "promocao_preco": null,
+    "atacado": true,
+    "atacado_minquantidade": 3,
+    "vendas": 5,
+    "desativado": false
+  },
+  {
+    "id": 3,
+    "name": "Salgadinho Fandangos",
+    "description": "Salgadinho Fandangos de presunto (45g), snack crocante e salgado, é uma opção popular de petisco para acompanhar momentos de lazer.",
+    "slug": "salgadinho-fandangos",
+    "image": "/produtos/salgadinho-fandangos.png",
+    "preco": 3.49,
+    "quantidade": 2931,
+    "promocao": true,
+    "promocao_preco": 2.99,
+    "atacado": false,
+    "atacado_minquantidade": 0,
+    "vendas": 55,
+    "desativado": false
+  },
+  {
+    "id": 4,
+    "name": "Refrig Coca Cola 350ml",
+    "description": "O refrigerante Coca-Cola 350ml é uma bebida refrescante e popular, conhecida por seu sabor único e distintivo. Embalada em uma garrafa de 350ml, oferece uma experiência de consumo refrescante e satisfatória.",
+    "slug": "refrig-coca-cola-350ml",
+    "image": "/produtos/cocacola-lata.png",
+    "preco": 3.69,
+    "quantidade": 22,
+    "promocao": false,
+    "promocao_preco": null,
+    "atacado": true,
+    "atacado_minquantidade": 3,
+    "vendas": 15,
+    "desativado": false
+  }
+]

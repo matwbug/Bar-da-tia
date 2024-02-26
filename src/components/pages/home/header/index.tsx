@@ -1,15 +1,15 @@
 'use client'
 
 import { Input, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
-import Logo from "../../../logo";
 import { BiSearch } from "react-icons/bi";
-import { useAuth } from "../../../../../contexts/authContext";
 import { NavNotLogged } from "./navNotLogged";
 import { NavLogged } from "./navLogged";
 import { CartNavbar } from "./cartNavbar";
+import { Logo } from "@/components/logo";
+import { useSession, getSession } from "next-auth/react";
 
 export default function Header(){
-    const {isAuthenticated} = useAuth()
+    const { data } = useSession()
 
     return(
         <Navbar maxWidth="full" className="container w-screen align-middle text-black dark:text-white bg-dark">
@@ -34,14 +34,14 @@ export default function Header(){
             </NavbarItem>
           </NavbarContent>
           <NavbarContent justify="end" className="flex flex-row gap-5">
+            {
+              data?.user
+              ? <NavLogged />
+              : <NavNotLogged />
+            }
             <NavbarItem>
               <CartNavbar />
             </NavbarItem>
-            {
-              !isAuthenticated 
-              ? <NavNotLogged />
-              : <NavLogged />
-            }
           </NavbarContent>
         </Navbar>
     )

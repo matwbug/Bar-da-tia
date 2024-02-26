@@ -1,10 +1,11 @@
 import { Button, Image, Link } from "@nextui-org/react";
 
-export const Logo = ({variant = "normal"}: {
+export const Logo = ({variant = "normal", href = '/'}: {
     variant?: "normal" | "withName"
+    href?: string
 }) =>{
     return(
-        <Link href="/">
+        <Link href={href}>
             <div className="flex flex-row space-x-1 cursor-pointer justify-center items-end">
                 <Image 
                     src="/logo.png"

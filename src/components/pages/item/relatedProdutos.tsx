@@ -1,6 +1,6 @@
 import { Image, Link } from "@nextui-org/react"
 import { FaArrowDown, FaTruck } from "react-icons/fa"
-import { listaProdutos } from "../home/heroSection"
+import listaProdutos from "@/config/produtos.json"
 import { produtoProps } from "../home/cardProduto"
 
 export const RelatedProdutos = ({produto}: {

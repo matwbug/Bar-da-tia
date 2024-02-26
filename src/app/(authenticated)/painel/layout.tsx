@@ -1,11 +1,14 @@
 import { Metadata } from "next";
-
 import { Roboto, Bebas_Neue, Oswald } from 'next/font/google'
-
-import "@/components/style/global.css"
 import Providers from "@/app/(public)/providers";
 import HeaderPainel from "@/components/pages/painel/layout/header";
 import SidebarPainel from "@/components/pages/painel/layout/sidebar";
+import { getServerSession } from "next-auth";
+import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
+
+import "@/components/style/global.css"
+
 
 export const metadata: Metadata = {
   title: 'Bar da Tia',
@@ -35,22 +38,30 @@ const FontBebasNeue = Bebas_Neue({
   subsets: ['latin']
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    return (
-        <html lang="pt-br" className={`${FontBebasNeue.variable} ${FontRoboto.variable} ${FontOswald.variable}`}>
-            <body className="flex flex-col font-sans">
-                <Providers>
-                    <HeaderPainel />
-                    <main className="h-full w-full">
-                      <SidebarPainel />
-                      {children}
-                    </main>
-                </Providers>
-            </body>
-        </html>
-    );
+
+  const session = await getServerSession(nextAuthOptions)
+  if(!session){
+    redirect('/login')
+  }
+  
+  return (
+      <html lang="pt-br" className={`${FontBebasNeue.variable} ${FontRoboto.variable} ${FontOswald.variable}`}>
+          <body className="font-sans bg-light-background-200/100">
+            <Providers>
+              <main className="h-screen flex flex-row">
+                <SidebarPainel />
+                <div className={`flex flex-col flex-1`}>
+                  <HeaderPainel />
+                  {children}
+                </div>
+              </main>
+            </Providers>
+        </body>
+      </html>
+  );
 }

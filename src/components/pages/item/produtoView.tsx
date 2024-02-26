@@ -1,15 +1,20 @@
+'use client'
+
 import { Button, Image } from "@nextui-org/react"
 import { CardProduto, produtoProps } from "../home/cardProduto"
 import { CiDiscount1 } from "react-icons/ci"
 import { listaProdutos } from "../home/heroSection"
 import { FaCartShopping } from "react-icons/fa6"
 import sqlite from 'sqlite3'
-import { RelatedProdutos } from "./RelatedProdutos"
+import { RelatedProdutos } from "./relatedProdutos"
+import { useCart } from "@/contexts/cartContext"
 
 export const ProdutoView = ({produto}: {
     produto: produtoProps
 }) => {
    
+    const { addCart } = useCart()
+
     return(
         <main className="flex flex-col container items-center">
             <div className="w-full rounded flex items-center justify-center flex-col gap-1 lg:flex-row">
@@ -42,7 +47,7 @@ export const ProdutoView = ({produto}: {
                     </div>
                     <div className="flex flex-col gap-3">
                         <span className="flex flex-row gap-1 text-gray-400 items-center justify-start"> <CiDiscount1 size={20}/> Desconto aplicado no momento da compra no carrinho</span>
-                        <Button variant="flat" color="primary" className="max-w-96" fullWidth><FaCartShopping /> Adicionar</Button>
+                        <Button variant="flat" color="primary" className="max-w-96" fullWidth onClick={() => addCart({item: produto, quantity: 1})}><FaCartShopping /> Adicionar</Button>
                     </div>
                 </div>
             </div>

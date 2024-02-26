@@ -7,6 +7,10 @@ import Providers from "./providers";
 import { Roboto, Bebas_Neue } from 'next/font/google'
 
 import "@/components/style/global.css"
+import Header from "@/components/pages/home/header";
+import { getServerSession } from "next-auth";
+import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: 'Bar da Tia',
@@ -29,7 +33,7 @@ const FontBebasNeue = Bebas_Neue({
   subsets: ['latin']
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

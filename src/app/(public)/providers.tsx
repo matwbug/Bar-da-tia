@@ -3,19 +3,19 @@
 import { NextUIProvider } from "@nextui-org/react"
 import { useRouter } from "next/navigation"
 import { ReactNode } from "react"
-import { AuthProvider } from "../../contexts/authContext"
 import { CartProvider } from "../../contexts/cartContext"
+import NextAuthSessionProvider from "@/providers/sessionProvider"
 
 export default function Providers({children}: {children: ReactNode}){
     const router = useRouter()
 
     return(
         <NextUIProvider navigate={router.push}>
-            <AuthProvider>
+            <NextAuthSessionProvider>
                 <CartProvider>
                     {children}
                 </CartProvider>
-            </AuthProvider>
+            </NextAuthSessionProvider>
         </NextUIProvider>
     )
 }
