@@ -6,8 +6,9 @@ import listaProdutos from "@/config/produtos.json"
 import { GoGraph } from "react-icons/go"
 
 export default function Home(){
+
   return(
-    <div className={`flex mx-1 mt-3 h-full`}>
+    <div className={`flex mx-1 mt-3 h-full flex-col gap-2`}>
       <div 
         className="
         bg-light-background-50 shadow-sm h-fit p-6 rounded-md w-full gap-3 flex flex-col
@@ -20,7 +21,8 @@ export default function Home(){
           .sort((a, b) => {
             return b.vendas - a.vendas // Ordenando por número vendas
           })
-          .map(item => {
+          .map((item, index) => {
+            if(index > 4) return null
             return(
               <CardProdutoPainel
                 item={item}

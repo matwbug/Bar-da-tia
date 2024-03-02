@@ -3,9 +3,7 @@
 import { Button, Image } from "@nextui-org/react"
 import { CardProduto, produtoProps } from "../home/cardProduto"
 import { CiDiscount1 } from "react-icons/ci"
-import { listaProdutos } from "../home/heroSection"
 import { FaCartShopping } from "react-icons/fa6"
-import sqlite from 'sqlite3'
 import { RelatedProdutos } from "./relatedProdutos"
 import { useCart } from "@/contexts/cartContext"
 

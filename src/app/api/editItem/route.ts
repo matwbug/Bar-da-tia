@@ -85,7 +85,7 @@ export async function POST(req: NextRequest){
             quantidade: valores.quantidade
         })
 
-        return NextResponse.json({success: true})
+        return NextResponse.json({success: true, })
     }catch(error){
         console.log(`Aconteceu algum erro \n Erro: ${error}`)
         return NextResponse.json({success: false})

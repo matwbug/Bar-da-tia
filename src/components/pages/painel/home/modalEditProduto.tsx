@@ -15,16 +15,17 @@ import { CardInputEstoque } from "./components/cardInputEstoque";
 import { HiMiniShoppingCart } from "react-icons/hi2";
 import { IoLayers } from "react-icons/io5";
 
-export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto}: {
+export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto, itens, setItens}: {
     modalOpen: boolean,
     setModalOpen: (val: boolean) => void
     produto: produtoProps
     setProduto: (produto: produtoProps) => void
+    itens: produtoProps[]
+    setItens: (itens: produtoProps[]) => void
 }) => {
 
     const [loading, setLoading] = useState(false)
     const [cachedProduto, setCachedProduto] = useState(produto)
-    
 
     const handleSwitchDisabledItem = async () => {
         try{
@@ -32,13 +33,23 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto}:
             const formData = new FormData()
             formData.append('produtoId', produto.id.toString())
             
-            const result: {success: boolean, disabled: boolean} = await fetch('/api/disableItem', {
+            const result: {success: boolean, status: 'ATIVO' | 'DESATIVADO'} = await fetch('/api/disableItem', {
                 method: 'POST', 
                 body: formData
-            }).then(result => {return result.json()})
+            }).then(async(result) => {return await result.json()})
 
             if(result.success){
-                setProduto({...produto, desativado: result.disabled})
+                setProduto({...produto, status: result.status})
+                const newList: produtoProps[] = itens.map(item => {
+                    if(item.id === produto.id){
+                       return{
+                        ...item,
+                        status: result.status
+                       }
+                    }
+                    return item
+                })
+                setItens(newList)
             }
         }
         catch(error){
@@ -67,10 +78,28 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto}:
             const result = await fetch('/api/editItem', {
                 method: 'POST',
                 body: formData
-            }).then(res => {return res.json()})
+            }).then(async(res) => {return await res.json()})
 
             if(result.success){
                 setCachedProduto(produto)
+                setProduto({...produto, status: result.status})
+                const newList: produtoProps[] = itens.map(item => {
+                    if(item.id === produto.id){
+                       return {
+                        ...item,
+                        name: produto.name,
+                        description: produto.description,
+                        preco: produto.preco,
+                        quantidade: produto.quantidade,
+                        atacado: produto.atacado,
+                        atacado_minquantidade: produto.atacado_minquantidade,
+                        promocao: produto.promocao,
+                        promocao_preco: produto.promocao_preco
+                       }
+                    }
+                    return item
+                })
+                setItens(newList)
             }
         }
         catch(error) {
@@ -100,7 +129,7 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto}:
                 }
                 <ModalHeader className="py-2 flex gap-3 flex-row justify-center items-center">
                     <p>{produto.name}</p> 
-                    {produto.desativado 
+                    {produto.status === 'DESATIVADO' 
                     ? <div className="border-1 border-red-500 bg-red-600/[0.3] text-red-500 p-1 rounded-lg">
                         <span className="font-tiny text-sm flex flex-row gap-1 items-center justify-center"><IoIosCloseCircle /> DESATIVADO</span>
                     </div>
@@ -125,6 +154,7 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto}:
                                 type="text"
                                 label="Nome do produto"
                                 value={produto.name}
+                                onChange={(e) => setProduto({...produto, name: e.target.value})}
                                 classNames={{
                                     inputWrapper: [
                                         `hover:bg-red-500`,
@@ -137,29 +167,30 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto}:
                                 type="text"
                                 label="Descrição"
                                 value={produto.description}
+                                onChange={(e) => setProduto({...produto, description: e.target.value})}
                                 color="default"
                                 classNames={{
                                     inputWrapper: `bg-light-background-200 border-1 border-zinc-200`
                                 }}
                             />
-                            <ProdutoPriceInput produto={produto} setProduto={setProduto} />
+                            <ProdutoPriceInput produto={produto} setProduto={setProduto} variant="edit"/>
                         </div>
                     </div>
-                <Divider />
-                <div className="flex flex-col gap-1">
-                    <CardInputEstoque produto={produto} setProduto={setProduto} />
-                    <CardInputPromocao produto={produto} setProduto={setProduto} />
-                </div>
-                <CardInputAtacado produto={produto} setProduto={setProduto} />
-                {
-                    !produto.desativado 
-                    ? <Button onClick={handleSwitchDisabledItem} color="danger" variant="flat" className="flex flex-row gap-1">
-                        <GrDisabledOutline /> Desativar item
-                    </Button>
-                    : <Button onClick={handleSwitchDisabledItem} color="success" variant="flat" className="flex flex-row gap-1">
-                        <GrDisabledOutline /> Ativar item
-                    </Button>
-                }
+                    <Divider />
+                    <div className="flex flex-col gap-1">
+                        <CardInputEstoque produto={produto} setProduto={setProduto} />
+                        <CardInputPromocao produto={produto} setProduto={setProduto} variant="edit" />
+                    </div>
+                    <CardInputAtacado produto={produto} setProduto={setProduto} variant="edit" />
+                    {
+                        produto.status === 'ATIVADO' 
+                        ? <Button onClick={handleSwitchDisabledItem} color="danger" variant="flat" className="flex flex-row gap-1">
+                            <GrDisabledOutline /> Desativar item
+                        </Button>
+                        : <Button onClick={handleSwitchDisabledItem} color="success" variant="flat" className="flex flex-row gap-1">
+                            <GrDisabledOutline /> Ativar item
+                        </Button>
+                    }
                 </ModalBody>
                 <ModalFooter>
                     <Button onClick={handleSaveChanges} color="success" className="text-white"> Salvar <CiCircleCheck size={20} /></Button>

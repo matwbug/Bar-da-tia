@@ -12,7 +12,7 @@ const desativarItem = async (produtoInfo: produtoProps) => {
             if(item.id === produtoInfo.id){
                 return {
                     ...item,
-                    desativado: !item.desativado
+                    status: produtoInfo.status === 'ATIVO' ? 'DESATIVADO' : 'ATIVO'
                 }
             }
             return item
@@ -47,9 +47,10 @@ export async function POST(req: NextRequest){
         if(!produtoInfo) return NextResponse.json({success: false});
 
         await desativarItem(produtoInfo)
-        produtoInfo = ((await readProdutos()).find(item => item.id === parseInt(produtoId)))
+        produtoInfo = ((await readProdutos()).find(item => item.id === parseInt(produtoId))) //Atualizando valor
+        if(!produtoInfo) return NextResponse.json({success: false}); 
 
-        return NextResponse.json({success: true, disabled: produtoInfo?.desativado})
+        return NextResponse.json({success: true, status: produtoInfo.status})
     }catch(error){
         console.log(`Aconteceu algum erro \n Erro: ${error}`)
         return NextResponse.json({success: false})

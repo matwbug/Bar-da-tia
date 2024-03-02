@@ -6,13 +6,13 @@
     "slug": "cerveja-original-269ml",
     "image": "/produtos/cerveja-original.png",
     "preco": 25,
-    "quantidade": 122548,
+    "quantidade": 122560,
     "promocao": false,
     "promocao_preco": 1.99,
     "atacado": true,
-    "atacado_minquantidade": 20,
+    "atacado_minquantidade": 14,
     "vendas": 5,
-    "desativado": false
+    "status": "DESATIVADO"
   },
   {
     "id": 2,
@@ -22,12 +22,12 @@
     "image": "/produtos/cerveja-heineken.png",
     "preco": 2.69,
     "quantidade": 100,
-    "promocao": false,
-    "promocao_preco": null,
+    "promocao": true,
+    "promocao_preco": 1,
     "atacado": true,
     "atacado_minquantidade": 3,
     "vendas": 5,
-    "desativado": false
+    "status": "ATIVO"
   },
   {
     "id": 3,
@@ -42,21 +42,51 @@
     "atacado": false,
     "atacado_minquantidade": 0,
     "vendas": 55,
-    "desativado": false
+    "status": "ATIVO"
   },
   {
     "id": 4,
     "name": "Refrig Coca Cola 350ml",
     "description": "O refrigerante Coca-Cola 350ml é uma bebida refrescante e popular, conhecida por seu sabor único e distintivo. Embalada em uma garrafa de 350ml, oferece uma experiência de consumo refrescante e satisfatória.",
     "slug": "refrig-coca-cola-350ml",
-    "image": "/produtos/cocacola-lata.png",
+    "image": "/produtos/refrig-coca-cola-350ml.png",
     "preco": 3.69,
     "quantidade": 22,
     "promocao": false,
-    "promocao_preco": null,
+    "promocao_preco": 0,
     "atacado": true,
     "atacado_minquantidade": 3,
     "vendas": 15,
-    "desativado": false
+    "status": "ATIVO"
+  },
+  {
+    "id": 5,
+    "name": "Refrig Pepsi 350ml",
+    "description": "O refrigerante Pepsi 350ml é uma bebida refrescante e popular, conhecida por seu sabor único e distintivo. Embalada em uma garrafa de 350ml, oferece uma experiência de consumo refrescante e satisfatória.",
+    "slug": "refrig-coca-cola-350ml",
+    "image": "/produtos/refrig-pepsi-350ml.png",
+    "preco": 2.7,
+    "quantidade": 50,
+    "promocao": false,
+    "promocao_preco": 0,
+    "atacado": true,
+    "atacado_minquantidade": 3,
+    "vendas": 15,
+    "status": "ATIVO"
+  },
+  {
+    "id": 6,
+    "name": "Maionese Hellmann's Tradicional 500g",
+    "description": "A Maionese Hellmann's Tradicional 500g é um produto popular conhecido por sua textura cremosa e sabor suave, ideal para sanduíches, saladas e hambúrgueres.",
+    "slug": "maionese-hellmanns-tradicional-500g",
+    "image": "/produtos/maionese-hellmanns-tradicional-500g.png",
+    "preco": 8.2,
+    "quantidade": 300,
+    "promocao": true,
+    "promocao_preco": 6.2,
+    "atacado": true,
+    "atacado_minquantidade": 3,
+    "vendas": 15,
+    "status": "ATIVO"
   }
 ]

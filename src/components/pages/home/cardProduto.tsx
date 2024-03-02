@@ -21,7 +21,7 @@ export type produtoProps = {
     atacado: boolean
     atacado_minquantidade: number | null
     vendas: number
-    desativado: boolean
+    status: string // Corrigido aqui 'ATIVO' | 'DESATIVADO'; arquivos json não suportam tipagem fora de string, boolean e number
 }
 
 export const CardProduto = ({item}: {
