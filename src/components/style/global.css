@@ -13,13 +13,14 @@
         -moz-osx-font-smoothing: grayscale;
     }
     html, body {
-        @apply h-full w-full dark:bg-dark-background-950 bg-light-background-100 dark:text-white text-black
+        @apply h-full w-full dark:bg-dark-background-950 bg-light-background-100 dark:text-white text-black overflow-y-auto
     }
     main {
         @apply w-full h-full
     }
+
     *::-webkit-scrollbar-thumb {
-        @apply dark:bg-light-background-200 border-r-[14px]
+        @apply dark:bg-light-background-900 bg-dark-default-200 border-r-[14px]
         
     }
 
@@ -27,8 +28,8 @@
         @apply dark:bg-light-background-900 border-r-[5px]
     }
 
-    *::-webkit-scrollbar{
-        @apply w-[8px]
+    *::-webkit-scrollbar {
+        @apply w-[12px] 
     }
 }
 

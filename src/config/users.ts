@@ -18,7 +18,7 @@ export const validUsers: UsersProps[] = [
         id: 2,
         username: 'admin',
         email: 'admin@bardatia.com',
-        password: 'admin',
+        password: 'admin1234',
         role: 'ADMIN'
     }
 ]

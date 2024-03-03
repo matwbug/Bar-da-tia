@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 const FontRoboto = Roboto({
   variable: '--font-roboto',
   subsets: ['latin'],
-  weight: ['400', '500']
+  weight: ["100", "300", '400', '500', "700", "900"]
 })
 
 const FontBebasNeue = Bebas_Neue({

@@ -7,16 +7,22 @@ export const CartCardPopover = ({item, quantity}: {
 }) => {
     return(
         <div className="flex flex-row justify-between items-center gap-1 w-full pr-2">
-            <Image 
-                src={item.image}
-                alt={item.name}
-                width={50}
-            />
-            <span className="font-thin text-sm">
+            <div>
+                <Image 
+                    src={item.image}
+                    alt={item.name}
+                    width={50}
+                    className="object-cover"
+                    classNames={{
+                        wrapper: `bg-light-background-50 rounded-md`
+                    }}
+                />
+            </div>
+            <span className="font-light text-sm">
                 {item.name.length > 20 ? `${item.name.substring(0,20)}...` : item.name}
             </span>
-            <span>{quantity}x</span>
-            <span className="text-md font-semibold">{(item.preco * quantity).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</span>
+            <span className="font-light text-sm">{quantity}x</span>
+            <span className="font-medium">{(item.preco * quantity).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</span>
         </div>
     )
 }

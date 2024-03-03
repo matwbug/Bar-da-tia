@@ -69,7 +69,7 @@ export const CartNavbar = () => {
                             {cart.total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}
                         </span>
                     </div>
-                    <Button variant="flat" fullWidth color="primary" as={Link} href="/carrinho">Finalizar compra</Button>
+                    <Button variant="flat" fullWidth color="primary">Finalizar compra</Button>
                 </div>
             </PopoverContent>
         </Popover>
