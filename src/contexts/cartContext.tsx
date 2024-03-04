@@ -51,7 +51,9 @@ export const CartProvider = ({children}: {
     
             // Calcular o total novamente
             const total = updatedCart.reduce((acc, cartItem) => {
-                return acc + cartItem.item.preco * cartItem.quantity;
+                let currentPrice = item.atacado && item.atacado_minquantidade && item.atacado_minquantidade >= quantity ? (item.preco - (item.preco * 0.25)) : item.preco
+
+                return acc + currentPrice * cartItem.quantity;
             }, 0);
     
             // Atualizar o estado do carrinho e o total

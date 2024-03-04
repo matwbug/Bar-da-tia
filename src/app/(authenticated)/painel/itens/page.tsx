@@ -21,9 +21,9 @@ export default function ItensIndexPainel(){
       setProdutos={setProdutos}
     />   
     <div className={`flex flex-col mx-1 mt-3 h-full gap-1`}>
-      <div className="bg-light-background-100 shadow-sm flex-col p-4 gap-3 flex h-full rounded">
+      <div className="bg-light-background-100 shadow-sm flex-col p-4 gap-3 flex h-full rounded items-start" >
+        <Button onClick={() => setModalOpen(true)} className="text-foreground-50 max-w-96" color="success"><IoAddCircle /> Adicionar novo produto</Button>
         <TableItens produtos={produtos} />
-        <Button onClick={() => setModalOpen(true)} className="text-foreground-50" color="success"><IoAddCircle /> Adicionar novo produto</Button>
       </div>
     </div>
   </>)    

@@ -25,7 +25,7 @@ const CategoriasList: CategoriasProps[] = [
 
 export const CategoriasSection = () => {
     return(
-        <section className="flex flex-col gap-4 mt-6">
+        <section className="flex flex-col gap-4 mt-6 w-full">
             <h1 className="font-bold text-zinc-800">Categorias</h1>
             <div className="flex flex-row gap-4 justify-start items-center flex-wrap">
             {

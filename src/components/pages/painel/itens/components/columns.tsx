@@ -37,8 +37,8 @@ export const renderCell = (
         formData.append('produtoId', produto.id.toString())
         
         const result: {success: boolean, status: 'ATIVO' | 'DESATIVADO'} = await fetch('/api/disableItem', {
-            method: 'POST', 
-            body: formData
+          method: 'POST', 
+          body: formData
         }).then(result => {return result.json()})
 
         if(result.success){
@@ -65,15 +65,14 @@ export const renderCell = (
             <div onClick={handleEdit} className="flex flex-row gap-3 items-center cursor-pointer">
               <Image 
                 alt={produto.name}
-                className="rounded-sm w-12 h-12 object-cover"
+                className="rounded-md w-12 h-12 object-cover"
                 src={produto.image}
-                classNames={{wrapper: `bg-gray-500 w-12 w-12 min-w-12`}}
+                classNames={{wrapper: `bg-gray-500 w-12 w-12 min-w-12 rounded-md`}}
               />
               <div className="flex flex-col gap-1">
                 <p>{produto.name}</p>
-                <span className="max-xl:hidden block text-gray-400">{produto.description}</span>
               </div>
-            </div>
+            </div>  
           </>);
         case "preco":
           return (

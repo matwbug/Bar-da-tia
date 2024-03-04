@@ -38,7 +38,7 @@ const adicionarItem = async (values: FormDataValues, image: File | null) => {
         const bytes = await image.arrayBuffer()
         const buffer = Buffer.from(bytes)
      
-        const ext = image.type === 'image/jpeg' ? 'jpg' : 'image/png'  
+        const ext = image.type === 'image/jpeg' ? 'jpg' : 'png'  
      
         const produtoImageName = `${gerarSlug(values.name)}_${Date.now()}.${ext}`
      
@@ -77,6 +77,8 @@ export async function POST(req: NextRequest){
         const valores: FormDataValues = {} as FormDataValues;
         const file: File | null = data.get('image') as unknown as File
 
+        console.log(file)
+
         data.forEach((valor, chave: string) => {
             if (typeof chave === 'string' && typeof valor === 'string') {
                 (valores as any)[chave] = valor;
@@ -84,6 +86,7 @@ export async function POST(req: NextRequest){
         });
 
         const newItem = await adicionarItem(valores, file)
+
         return new NextResponse(JSON.stringify({success: true, newItem: newItem}), {
             status: 200 
         });

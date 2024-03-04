@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
-import { Button, Link, Popover, PopoverContent, PopoverTrigger, User } from "@nextui-org/react"
+import { Button, Link, Popover, PopoverContent, PopoverTrigger, Tooltip, User } from "@nextui-org/react"
 import { FaCartShopping } from "react-icons/fa6"
 import { CartCardPopover } from "./cartCardPopover"
 import { CartEmpty } from "./cartEmpty"
@@ -22,6 +22,28 @@ export const CartNavbar = () => {
         setTimeout(() => {
             setOpen(false)
         }, 1000); 
+    }, [cart])
+
+    const [valorEconomizado, setValorEconomizado] = useState(0)  
+
+    useEffect(() => {
+        let newValue = cart.itens
+        .filter(cart => cart.item.atacado)
+        .map(item => {
+            if (item.quantity >= item.item.atacado_minquantidade) {
+                let realPrice = item.item.preco * item.quantity;
+                let atacadoPrice = (item.item.preco - (item.item.preco * 0.25)) * item.quantity;
+                return realPrice - atacadoPrice;
+            } else {
+                return 0; // Ou outro valor padrão se não houver economia
+            }
+        })
+    
+        .reduce((total, valor) => total + valor, 0);
+
+        setValorEconomizado(newValue)
+        console.log(newValue)
+        
     }, [cart])
 
     return(
@@ -60,7 +82,7 @@ export const CartNavbar = () => {
                     </div>
                     : <CartEmpty />
                 }
-                <div className="flex flex-col justify-between items-center gap-2 w-full px-3 mt-2 dark:bg-dark-background-950 bg-light-background-100 rounded-b-sm">
+                <div className="flex flex-col justify-between items-center gap-2 w-full px-3 mt-2 bg-light-background-100 rounded-b-sm">
                     <div className="flex flex-row justify-between items-end w-full">
                         <span className="font-normal">
                             Total
@@ -69,6 +91,15 @@ export const CartNavbar = () => {
                             {cart.total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}
                         </span>
                     </div>
+                    {
+                        valorEconomizado > 0
+                        && <Tooltip showArrow color={'foreground'} content={<span>Preço de atacado ativado</span>}>
+                            <div className="flex gap-1 justify-center items-center w-full bg-emerald-500 p-1 rounded text-white">
+                                <span className="text-left font-light">Você está economizando</span>
+                                <span className="font-medium">{valorEconomizado.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</span>
+                            </div>
+                        </Tooltip>
+                    }
                     <Button variant="flat" fullWidth color="primary">Finalizar compra</Button>
                 </div>
             </PopoverContent>

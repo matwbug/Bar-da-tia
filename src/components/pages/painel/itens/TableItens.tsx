@@ -7,11 +7,7 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    getKeyValue,
-    Modal,
     CircularProgress,
-    ModalBody,
-    Pagination,
     SortDescriptor
 } from "@nextui-org/react"
 import { columns, renderCell } from "./components/columns"
@@ -32,8 +28,15 @@ export const TableItens = ({produtos}: {
     const hasSearchFilter = Boolean(filterValue)
 
     useEffect(() => {
-        setItens(produtos)
-    }, [produtos])
+        let newItens = produtos.map(item => {
+            if(produto && item.id === produto.id){
+                return produto
+            }
+            return item
+        })
+        setItens(newItens)
+    }, [produtos, produto])
+
 
     const filteredItems = useMemo(() => {
         let filteredItems = [...itens]
@@ -47,7 +50,7 @@ export const TableItens = ({produtos}: {
     }, [itens, filterValue, hasSearchFilter])
 
     const [page, setPage] = useState(1)
-    const rowsPerPage = 10
+    const rowsPerPage = 9
 
     const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
@@ -112,6 +115,7 @@ export const TableItens = ({produtos}: {
             bottomContentPlacement="inside"
             sortDescriptor={sortDescriptor}
             onSortChange={setSortDescriptor}
+            className="max-h-[100%]"
         >
             <TableHeader columns={columns}>
                 {(column) => 

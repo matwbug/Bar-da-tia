@@ -34,14 +34,14 @@ export default function Header(){
             </NavbarItem>
           </NavbarContent>
           <NavbarContent justify="end" className="flex flex-row gap-5">
+            <NavbarItem>
+              <CartNavbar />
+            </NavbarItem>
             {
               data?.user
               ? <NavLogged />
               : <NavNotLogged />
             }
-            <NavbarItem>
-              <CartNavbar />
-            </NavbarItem>
           </NavbarContent>
         </Navbar>
     )
