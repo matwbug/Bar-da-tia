@@ -2,9 +2,9 @@ import { validUsers } from "@/config/users";
 import NextAuth from "next-auth/next";
 import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from  "next-auth/providers/credentials"
-import { NextAuthOptions } from "next-auth";
+import { AuthOptions, NextAuthOptions } from "next-auth";
 
-export const nextAuthOptions: NextAuthOptions = {
+export const nextAuthOptions: AuthOptions = {
     secret: process.env.NEXTAUTH_SECRET ?? "",
     providers: [
         GithubProvider({
@@ -35,6 +35,6 @@ export const nextAuthOptions: NextAuthOptions = {
 
 }
 
-export const handler = NextAuth(nextAuthOptions)
+const handler = NextAuth(nextAuthOptions);
 
-export {handler as GET, handler as POST};
+export { handler as GET, handler as POST };
