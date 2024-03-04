@@ -16,7 +16,8 @@ import { FaExclamationCircle } from "react-icons/fa"
 import { useRouter } from "next/navigation"
 import { CardAvailableItem } from "../home/components/cardAvailableItem"
 
-export interface FormDataProduto{
+// Interface para os dados do produto a serem adicionados
+export interface FormDataProduto {
     name?: string
     description?: string
     preco?: number
@@ -30,26 +31,32 @@ export interface FormDataProduto{
     status?: string 
 }
 
+// Componente ModalAddItem
 export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos}: {
     modalOpen: boolean,
     setModalOpen: (val: boolean) => void
     produtos: produtoProps[],
     setProdutos: (produtos: produtoProps[]) => void
 }) => {
+    // Estados para controle do carregamento, novo item e validação
     const [loading, setLoading] = useState(false)
     const [newItem, setNewItem] = useState<FormDataProduto>({})
-
     const [valid, setValid] = useState<{valid: boolean, message?: ReactNode}>({valid: true})
-
     const router = useRouter()
 
+    // Função para adicionar um novo item de produto
     const handleAddItem = async () => {
-        try{
-            if(!newItem.image || !newItem.name || !newItem.description || !newItem.preco || !newItem.quantidade) return setValid({valid: false, message: 'Informe todos os campos obrigatórios!'})
+        try {
+            // Verifica se todos os campos obrigatórios estão preenchidos
+            if (!newItem.image || !newItem.name || !newItem.description || !newItem.preco || !newItem.quantidade) 
+                return setValid({valid: false, message: 'Informe todos os campos obrigatórios!'})
 
+            // Limpa as mensagens de validação
             setValid({valid: true})
             setLoading(true)
             const formData = new FormData()
+            
+            // Adiciona os dados do novo item ao FormData
             formData.append('image', newItem.image)
             formData.append('name', newItem.name)
             formData.append('description', newItem.description)
@@ -61,14 +68,17 @@ export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos}: {
             formData.append('promocao_preco', newItem.promocao_preco?.toString() ?? '0') 
             formData.append('status', newItem.status ?? 'ATIVO')
 
+            // Envia os dados para a API
             let result = await fetch('/api/addItem', {
                 method: 'POST',
                 body: formData
             })
 
+            // Verifica se a requisição foi bem-sucedida
             if (result.ok) {
                 const data: {newItem: produtoProps} = await result.json()
                 try {
+                    // Adiciona o novo item à lista de produtos e fecha o modal
                     const newProdutos = [...produtos, {...data.newItem}].sort((a, b) => b.id - a.id)
                     setProdutos(newProdutos)
                     setModalOpen(false) 
@@ -80,15 +90,17 @@ export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos}: {
                 // A solicitação falhou
                 console.error('Falha ao adicionar item:', result.status, result.statusText);
             }
-
-        }catch(error){
+        } catch(error) {
+            // Trata erros durante o processo de adição do item
             console.error('Erro ao adicionar o item', error)
-        }finally{
+        } finally {
+            // Finaliza o estado de carregamento
             setLoading(false)
         }
     }
 
-    return(
+    return (
+        // Componente Modal para adicionar um novo item
         <Modal
             isOpen={modalOpen}
             onOpenChange={setModalOpen}
@@ -97,24 +109,29 @@ export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos}: {
             radius="lg"
         >
             <ModalContent>
+                {/* Indicador de carregamento */}
                 {loading && <div
                         className="absolute w-full h-full bg-light-background-200/[0.5] flex justify-center items-center"
                         style={{zIndex: 100}}
                     >
                         <CircularProgress aria-label="Carregando..." size="lg"/>
                 </div>}
+                {/* Cabeçalho do modal */}
                 <ModalHeader>Adicionando produto novo</ModalHeader>
+                {/* Corpo do modal */}
                 <ModalBody className="flex flex-col gap-3 py-5 relative">
-                    {
-                        !valid.valid && 
+                    {/* Exibe mensagens de validação */}
+                    {!valid.valid && 
                         <div className="w-full bg-red-500 text-white py-3 p-6 rounded flex flex-row items-center gap-1">
                             <FaExclamationCircle />
                             <span>{valid.message}</span>
                         </div>
                     }
                     <div className="flex flex-col gap-3 justify-between">
+                        {/* Componente para adicionar imagem do produto */}
                         <InputAddImage item={newItem} setItem={setNewItem}  />
                         <div className="w-full justify-start flex flex-col gap-1">
+                            {/* Campo para inserir o nome do produto */}
                             <Input 
                                 fullWidth
                                 type="text"
@@ -128,6 +145,7 @@ export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos}: {
                                     ],
                                 }}
                             />
+                            {/* Campo para inserir a descrição do produto */}
                             <Textarea 
                                 fullWidth
                                 type="text"
@@ -139,18 +157,25 @@ export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos}: {
                                     inputWrapper: `bg-light-background-200 border-1 border-zinc-200`
                                 }}
                             />
+                            {/* Componente para inserir o preço do produto */}
                             <ProdutoPriceInput formData={newItem} setFormData={setNewItem} variant="add" />
                         </div>
                     </div>
                     <Divider />
                     <div className="flex flex-col gap-1">
+                        {/* Componente para inserir o estoque do produto */}
                         <CardInputEditEstoque produto={newItem} setProduto={setNewItem} /> 
+                        {/* Componente para inserir informações de promoção */}
                         <CardInputPromocao formData={newItem} setFormData={setNewItem} variant="add" />
                     </div>
+                    {/* Componente para inserir informações de atacado */}
                     <CardInputAtacado formData={newItem} setFormData={setNewItem} variant="add" />
+                    {/* Componente para verificar a disponibilidade do item */}
                     <CardAvailableItem produto={newItem} setProduto={setNewItem} />
                 </ModalBody>
+                {/* Rodapé do modal */}
                 <ModalFooter>
+                    {/* Botão para adicionar o item */}
                     <Button onClick={handleAddItem} fullWidth color="success" className="text-foreground-50"><IoIosAddCircle size={16} /> Adicionar</Button>
                 </ModalFooter>
             </ModalContent>

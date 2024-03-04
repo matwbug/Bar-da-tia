@@ -1,12 +1,9 @@
-import { produtoProps } from "@/components/pages/home/cardProduto";
-import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Image, Link, Tooltip, User as Item } from "@nextui-org/react";
-import React, { Key } from "react";
-import { BiEdit } from "react-icons/bi";
-import { BsEye, BsThreeDots, BsThreeDotsVertical } from "react-icons/bs";
-import { FiDelete } from "react-icons/fi";
-import { MdOutlineDelete } from "react-icons/md";
-import { VscEdit } from "react-icons/vsc";
+import { produtoProps } from "@/components/pages/home/cardProduto"; // Importa o tipo de propriedade do produto
+import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Image, Link, User as Item } from "@nextui-org/react"; // Importa componentes do Next UI
+import React from "react"; // Importa o React
+import { BsThreeDotsVertical } from "react-icons/bs"; // Importa ícone do React
 
+// Definição das colunas da tabela
 export const columns = [
   {label: "ID", key: "id", sortable: true},
   {label: "Item", key: "name", sortable: true},
@@ -16,6 +13,7 @@ export const columns = [
   {label: "", key: "actions"},
 ];
 
+// Função para renderizar as células da tabela
 export const renderCell = (
   produto: produtoProps, 
   columnKey: React.Key, 
@@ -25,11 +23,13 @@ export const renderCell = (
 ) => {
     const cellValue = produto[columnKey as keyof produtoProps]
 
+    // Função para lidar com a edição de um item
     const handleEdit = () => {
       setProduto(produto)
       setModalOpen(true)
     }
 
+    // Função para desativar um item
     const handleDisable = async() => {
       try{
         setLoading(true)
@@ -53,6 +53,7 @@ export const renderCell = (
       }
     }
 
+    // Switch case para renderizar as células com base na chave da coluna
     switch (columnKey) {
         case "id": 
             return(
@@ -126,3 +127,4 @@ export const renderCell = (
           return cellValue;
     }
 }
+  

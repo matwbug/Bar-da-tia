@@ -1,57 +1,52 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss/base'; /* Importa as regras de estilo base do Tailwind CSS */
+@import 'tailwindcss/components'; /* Importa as regras de estilo dos componentes do Tailwind CSS */
+@import 'tailwindcss/utilities'; /* Importa as utilidades do Tailwind CSS */
 
 /* Estilos globais */
-
-@layer base {
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+@layer base { /* Define as regras de estilo base */
+    * { /* Define estilos para todos os elementos */
+        margin: 0; /* Remove as margens */
+        padding: 0; /* Remove os preenchimentos */
+        box-sizing: border-box; /* Define a caixa de modelo como border-box */
+        -webkit-font-smoothing: antialiased; /* Suaviza as fontes no Chrome */
+        -moz-osx-font-smoothing: grayscale; /* Suaviza as fontes no Firefox */
     }
-    html, body {
-        @apply h-full w-full dark:bg-dark-background-950 bg-light-background-100 dark:text-white text-black overflow-y-auto
+    html, body { /* Estilo para o HTML e o corpo da página */
+        @apply h-full w-full dark:bg-dark-background-950 bg-light-background-100 dark:text-white text-black overflow-y-auto; /* Aplica estilos usando classes do Tailwind CSS */
     }
-    main {
-        @apply w-full h-full
+    main { /* Estilo para a seção principal */
+        @apply w-full h-full; /* Aplica estilos usando classes do Tailwind CSS */
     }
-
-    *::-webkit-scrollbar-thumb {
-        @apply dark:bg-light-background-900 bg-dark-default-200 border-r-[14px]
-        
+    *::-webkit-scrollbar-thumb { /* Estilo para a barra de rolagem do WebKit */
+        @apply dark:bg-light-background-900 bg-dark-default-200 border-r-[14px]; /* Aplica estilos usando classes do Tailwind CSS */
     }
-
-    *::-webkit-scrollbar-track {
-        @apply dark:bg-light-background-900 border-r-[5px]
+    *::-webkit-scrollbar-track { /* Estilo para a pista da barra de rolagem do WebKit */
+        @apply dark:bg-light-background-900 border-r-[5px]; /* Aplica estilos usando classes do Tailwind CSS */
     }
-
-    *::-webkit-scrollbar {
-        @apply w-[12px] 
+    *::-webkit-scrollbar { /* Estilo para a barra de rolagem do WebKit */
+        @apply w-[12px]; /* Aplica estilos usando classes do Tailwind CSS */
     }
 }
 
-main{
-    min-height: 100vh;
+main { /* Estilo para a seção principal */
+    min-height: 100vh; /* Define a altura mínima como 100% da altura da viewport */
 }
 
-.container {
-    @apply mx-auto w-full max-w-[1200px] px-6
+.container { /* Estilo para o contêiner */
+    @apply mx-auto w-full max-w-[1200px] px-6; /* Aplica estilos usando classes do Tailwind CSS */
 }
 
-button {
-    border: none;
+button { /* Estilo para os botões */
+    border: none; /* Remove a borda */
 }
 
-a { text-decoration: none; }
+a { text-decoration: none; } /* Remove a decoração de texto dos links */
 
-img {
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-    -webkit-user-drag: none;
+img { /* Estilo para as imagens */
+    -webkit-user-select: none; /* Impede a seleção de texto no WebKit */
+    -khtml-user-select: none; /* Impede a seleção de texto no KHTML */
+    -moz-user-select: none; /* Impede a seleção de texto no Firefox */
+    -o-user-select: none; /* Impede a seleção de texto no Opera */
+    user-select: none; /* Impede a seleção de texto */
+    -webkit-user-drag: none; /* Impede o arrastar de imagem no WebKit */
 }

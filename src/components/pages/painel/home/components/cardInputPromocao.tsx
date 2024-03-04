@@ -8,6 +8,15 @@ import { MdOutlineDiscount } from "react-icons/md"
 import { NumericFormat } from "react-number-format"
 import { FormDataProduto } from "../../itens/modalAddItem"
 
+/**
+ * Componente CardInputPromocao
+ * 
+ * @param {object} produto - As informações do produto.
+ * @param {function} setProduto - Função para atualizar as informações do produto.
+ * @param {object} formData - As informações do formulário do produto.
+ * @param {function} setFormData - Função para atualizar as informações do formulário do produto.
+ * @param {string} variant - Variante do componente: 'edit' para edição, 'add' para adição.
+ */
 export const CardInputPromocao = ({produto, setProduto, variant, formData, setFormData}: {
     produto?: produtoProps
     setProduto?: (produto: produtoProps) => void
@@ -15,8 +24,10 @@ export const CardInputPromocao = ({produto, setProduto, variant, formData, setFo
     setFormData?: (formData: FormDataProduto) => void
     variant: 'edit' | 'add'
 }) => {
+    // Controles para animação do componente
     const controls = useAnimation();
 
+    // Efeito para animar a abertura e fechamento do componente
     useEffect(() => {
         if (formData?.promocao || produto?.promocao) {
             controls.start({ opacity: 1, y: 0, height: 'auto' });
@@ -25,8 +36,10 @@ export const CardInputPromocao = ({produto, setProduto, variant, formData, setFo
         }
     }, [produto?.promocao, formData?.promocao, controls]);
 
+    // Estado para verificar a validade do valor promocional
     const [isValid, setValid] = useState<{valid: true | false, errorMessage?: string}>({valid: true})
 
+    // Efeito para validar o valor promocional
     useEffect(() => {
         if(produto && setProduto && variant === 'edit'){
             if(produto.promocao_preco && produto.promocao_preco >= produto.preco){
@@ -57,9 +70,9 @@ export const CardInputPromocao = ({produto, setProduto, variant, formData, setFo
                 })
             }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [formData?.promocao_preco, produto?.promocao_preco])
+    }, [formData, formData?.promocao_preco, produto, produto?.promocao_preco, setFormData, setProduto, variant])
 
+    // Função para adicionar ou remover promoção
     const handleAddPromo = () => {
         if(produto && setProduto && variant === 'edit'){
             setProduto({...produto, promocao: !produto.promocao})
@@ -69,11 +82,15 @@ export const CardInputPromocao = ({produto, setProduto, variant, formData, setFo
         }
     }
 
+    // Valor do input de valor promocional
     const value = produto?.promocao_preco ? produto?.promocao_preco : (formData?.promocao_preco ? formData?.promocao_preco : 0)
 
     return(
+        // Container principal do componente
         <div className="flex flex-col gap-2 w-full">
+            {/* Botão para adicionar ou remover promoção */}
             <Button onClick={handleAddPromo} fullWidth color="primary" variant="flat" className="flex flex-row items-center"><CiDiscount1 /> Adicionar promoção</Button>
+            {/* Componente para inserir valor promocional */}
             <motion.div
                 animate={controls}
                 initial={{ opacity: 0, y: 20, height: '0' }}

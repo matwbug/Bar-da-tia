@@ -1,12 +1,13 @@
-"use client"
+'use client'
 
-import { motion, useAnimation } from "framer-motion";
-import { Button, Image, Link } from "@nextui-org/react"
-import { useEffect, useState } from "react"
-import { FaArrowDown, FaMinus, FaPlus, FaTruck } from "react-icons/fa"
-import { useCart } from "@/contexts/cartContext";
-import { MdAddShoppingCart } from "react-icons/md";
+import { motion, useAnimation } from "framer-motion"; // Importa os componentes necessários do Framer Motion para animações
+import { Button, Image, Link } from "@nextui-org/react"; // Importa os componentes necessários do NextUI
+import { useEffect, useState } from "react"; // Importa o hook useState do React para gerenciamento de estado
+import { FaArrowDown, FaMinus, FaPlus } from "react-icons/fa"; // Importa os ícones necessários da biblioteca React Icons
+import { useCart } from "@/contexts/cartContext"; // Importa o contexto de carrinho
+import { MdAddShoppingCart } from "react-icons/md"; // Importa o ícone de adicionar ao carrinho
 
+// Define o tipo para as propriedades dos produtos
 export type produtoProps = {
     id: number
     name: string
@@ -20,27 +21,28 @@ export type produtoProps = {
     atacado: boolean
     atacado_minquantidade: number
     vendas: number
-    status: string // Corrigido aqui 'ATIVO' | 'DESATIVADO'; arquivos json não suportam tipagem fora de string, boolean e number
+    status: string
 }
 
+// Componente para renderizar um card de produto
 export const CardProduto = ({item}: {
     item: produtoProps
 }) => {
-    const [open, setOpen] = useState(false)
-    const { cart, addCart, removeCart } = useCart()
+    const [open, setOpen] = useState(false); // Estado para controlar a visibilidade do botão de adicionar ao carrinho
+    const { cart, addCart, removeCart } = useCart(); // Usa o contexto do carrinho
+    const [count, setCount] = useState(cart.itens.find(cartItem => cartItem.item.id === item.id)?.quantity ?? 0); // Estado para contar a quantidade de itens no carrinho
 
-    const [count, setCount] = useState(cart.itens.find(cartItem => cartItem.item.id === item.id)?.quantity ?? 0)
-
-
-    const controls = useAnimation();
+    const controls = useAnimation(); // Controle para animações
 
     useEffect(() => {
+        // Atualiza a visibilidade do botão de adicionar ao carrinho com base na quantidade de itens no carrinho
         if(count === 0){
             setOpen(false)
         }else{
             setOpen(true)
         }
 
+        // Controla as animações de exibição do botão de adicionar ao carrinho
         if (open) {
             controls.start({ opacity: 1, height: 'unset', display: 'flex'  });
         } else {
@@ -48,21 +50,22 @@ export const CardProduto = ({item}: {
         }
     }, [open, controls, count]);
 
+    // Função para lidar com a adição de um item ao carrinho
     const handleAddItemCart = () => {
         addCart({item: item, quantity: 1})
         setCount(count+1)
     }
 
+    // Função para lidar com a remoção de um item do carrinho
     const handleRemoveItemCart = () => {
         removeCart({item: item, quantity: count-1})
         setCount(count-1)
     }
 
+    // Função para calcular o desconto percentual
     function calcularDesconto(valorOriginal: number, valorComDesconto: number) {
-        // Calcula a diferença entre os valores
-        let diferenca = valorOriginal - valorComDesconto;
-        // Calcula a porcentagem de desconto
-        let porcentagemDesconto = (diferenca / valorOriginal) * 100;
+        let diferenca = valorOriginal - valorComDesconto; // Calcula a diferença entre os valores
+        let porcentagemDesconto = (diferenca / valorOriginal) * 100; // Calcula a porcentagem de desconto
         return porcentagemDesconto.toFixed(0);
     }
 
@@ -71,6 +74,7 @@ export const CardProduto = ({item}: {
             <Link 
                 href={`/item/${item.id}`}
             >
+                {/* Componente com animações do Framer Motion */}
                 <motion.div className="duration-200 ease-in-out
                     flex flex-col gap-4 justify-center items-center rounded-md p-4 w-40 h-64 
                     max-lg:w-[200px]"
@@ -89,7 +93,7 @@ export const CardProduto = ({item}: {
                     </div>
                     <div className="flex flex-col gap-2 justify-center w-full">
                         { 
-                            item.promocao && item.promocao_preco
+                            item.promocao && item.promocao_preco // Verifica se há promoção
                             ? <div className="flex flex-col gap-1 w-full">
                                 <div className="flex flex-row gap-2">
                                     <span className="text-xl font-bebas text-emerald-500">
@@ -121,7 +125,9 @@ export const CardProduto = ({item}: {
                     </div>
                 </motion.div>
             </Link>
+            {/* Botão de adicionar ao carrinho */}
             <div className={`shadow-md ${count !== 0 && `justify-center`} min-h-10 items-end flex flex-row z-50 bg-light-background-50 rounded-md w-full`}>
+                {/* Animações do Framer Motion */}
                 <motion.div
                     className="flex flex-row duration-200 ease-in-out"
                     initial={{ opacity: 0, height: 0, display: 'none' }}
@@ -132,6 +138,7 @@ export const CardProduto = ({item}: {
                     <div className="bg-transparent w-10 flex justify-center items-center"><span className="font-bebas ">{count}</span></div>
                     <Button className={`bg-transparent`} isIconOnly onClick={handleAddItemCart}><FaPlus className="text-red-600"/></Button>
                 </motion.div>
+                {/* Botão de adicionar ao carrinho visível apenas quando o contador de itens é zero */}
                 <Button 
                     fullWidth 
                     w-full 

@@ -1,18 +1,21 @@
 'use client'
 
-import { produtoProps } from "@/components/pages/home/cardProduto";
-import { ReactNode, createContext, useContext, useState } from "react";
+import { produtoProps } from "@/components/pages/home/cardProduto"; // Importa a tipagem do produto
+import { ReactNode, createContext, useContext, useState } from "react"; // Importa recursos do React
 
+// Define as propriedades do carrinho e dos itens no carrinho
 interface CartProps{
     total: number
     itens: CartItemProps[]
 }
 
+// Define as propriedades de um item no carrinho
 interface CartItemProps{
     item: produtoProps
     quantity: number
 }
 
+// Define as propriedades do contexto do carrinho
 interface CartContextProps{
     cart: CartProps
     addCart: (item: CartItemProps) => void
@@ -20,17 +23,20 @@ interface CartContextProps{
     clearCart: () => void
 }
 
+// Cria o contexto do carrinho
 const CartContext = createContext({} as CartContextProps)
 
+// Provedor do contexto do carrinho
 export const CartProvider = ({children}: {
     children: ReactNode
 }) => {
 
-    const [cart, setCart] = useState<CartProps>({itens: [], total: 0})
+    const [cart, setCart] = useState<CartProps>({itens: [], total: 0}) // Define o estado inicial do carrinho
 
+    // Função para adicionar um item ao carrinho
     const addCart = ({ quantity, item }: CartItemProps) => {
         try {
-            const existingItem = cart.itens.find(cartItem => cartItem.item.id === item.id);
+            const existingItem = cart.itens.find(cartItem => cartItem.item.id === item.id); // Verifica se o item já existe no carrinho
     
             let updatedCart;
             if (existingItem) {
@@ -68,17 +74,18 @@ export const CartProvider = ({children}: {
         }
     };
     
+    // Função para remover um item do carrinho
     const removeCart = ({ item, quantity }: CartItemProps) => {
         try {
             if (cart) {
-                const existingItem = cart.itens.find(cartItem => cartItem.item.id === item.id);
+                const existingItem = cart.itens.find(cartItem => cartItem.item.id === item.id); // Verifica se o item existe no carrinho
 
                 if (existingItem) {
                     // Verificando se o item existe no carrinho
                     if(quantity === 0){
                         // Caso a quantidade seja 0, o item será removido do carrinho
                         const updatedCart = cart.itens
-                        .filter(produto => produto.item !== item) //Filtrando o item removido do array
+                        .filter(produto => produto.item !== item) // Filtrando o item removido do array
                         .map(cartItem => {
                             return cartItem
                         });
@@ -123,6 +130,7 @@ export const CartProvider = ({children}: {
         }
     };
 
+    // Função para limpar o carrinho
     const clearCart = () => {
         setCart({itens: [], total: 0})
     }
@@ -135,6 +143,7 @@ export const CartProvider = ({children}: {
     )
 }
 
+// Hook para utilizar o contexto do carrinho
 export const useCart = () => {
     return useContext(CartContext)
 }

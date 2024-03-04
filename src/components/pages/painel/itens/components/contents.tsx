@@ -1,11 +1,11 @@
-import { Input, Pagination } from "@nextui-org/react"
-import { BiSearch } from "react-icons/bi"
+import { Input, Pagination } from "@nextui-org/react"; // Importa componentes de input e paginação do Next UI
+import { BiSearch } from "react-icons/bi"; // Importa ícone de busca do React
 
+// Componente para o conteúdo superior da tabela, incluindo barra de busca
 export const TableItensTopContent = ({filterValue, onClear, onSearchChange}: {
     filterValue: string, 
     onClear: () => void
     onSearchChange: (value?: string) => void
-
 }) => {
     return(
         <div className="flex flex-col gap-4">
@@ -20,11 +20,11 @@ export const TableItensTopContent = ({filterValue, onClear, onSearchChange}: {
                     onValueChange={onSearchChange}
                 />
             </div>
-
         </div>
     )
 }
 
+// Componente para o conteúdo inferior da tabela, incluindo paginação
 export const TableItensBottomContent = ({page, pages, setPage}: {
     page: number
     pages: number

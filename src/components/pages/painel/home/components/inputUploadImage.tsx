@@ -4,14 +4,24 @@ import { MdEdit, MdImage } from "react-icons/md"
 import { produtoProps } from "../../../home/cardProduto"
 import { IoCloudUploadOutline } from "react-icons/io5"
 
+/**
+ * Componente InputUploadImage
+ * 
+ * @param {object} item - As informações do produto.
+ */
 export const InputUploadImage = ({item}: {
     item: produtoProps
 }) => {
+    // Estado para controlar o estado de upload da imagem
     const [uploading, setUploading] = useState(false)
+    // Estado para armazenar a URL da imagem selecionada
     const [selectedImage, setSelectedImage] = useState(item.image)
+    // Estado para armazenar o arquivo de imagem selecionado
     const [selectedFile, setSelectedFile] = useState<File>()
+    // Estado para controlar o hover sobre a área de upload
     const [hover, setHover] = useState(false)
 
+    // Função para lidar com o envio da imagem
     const handleUpload = async () => {
         setUploading(true)
         try{
@@ -33,7 +43,9 @@ export const InputUploadImage = ({item}: {
         }
     }
     return(
+        // Container principal do componente
         <div className="relative w-fit h-fit flex justify-center items-center flex-col gap-2">
+            {/* Botão de seleção de arquivo */}
             <label 
                 onMouseEnter={() => setHover(true)} 
                 onMouseLeave={() => setHover(false)}
@@ -51,6 +63,7 @@ export const InputUploadImage = ({item}: {
                     }}
                 />
                 
+                {/* Container para exibir a imagem selecionada ou a mensagem de seleção */}
                 <div 
                     className={`
                         relative w-40 h-40 rounded-sm flex items-center
@@ -58,6 +71,7 @@ export const InputUploadImage = ({item}: {
                         ${uploading ? `cursor-wait` : `cursor-pointer`}
                     `}
                 >
+                    {/* Exibição do indicador de carregamento */}
                     {
                         uploading 
                         ? <div className={`bg-light-background-200/[0.5] w-40 h-40 absolute z-50 flex justify-center items-center`}>
@@ -65,6 +79,7 @@ export const InputUploadImage = ({item}: {
                                 <div className="flex flex-coljustify-center items-center"><CircularProgress aria-label="Loading..." /></div> 
                             </div>
                         </div>
+                        // Exibição do ícone de alterar imagem ao passar o mouse
                         : <div className={`
                             ${hover ? `opacity-100` : `opacity-0`} bg-light-background-200/[0.7] w-40 h-40 absolute z-50 flex justify-center items-center ease-in-out duration-300`
                         }>
@@ -74,6 +89,7 @@ export const InputUploadImage = ({item}: {
                             </div>
                         </div>
                     }
+                    {/* Exibição da imagem selecionada ou mensagem de seleção */}
                     {
                         selectedImage
                         ? <Image 
@@ -86,6 +102,7 @@ export const InputUploadImage = ({item}: {
                     }
                 </div>
             </label>
+            {/* Botão para confirmar o envio da imagem */}
             <Button 
                 disabled={uploading}
                 style={{ opacity: uploading ? ".5" : '1'}}
