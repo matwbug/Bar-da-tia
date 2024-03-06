@@ -3,7 +3,8 @@ import sqlite3 from 'sqlite3';
 
 const excluirItem = async (produtoId: number) => {
     try {
-        const db = new sqlite3.Database('db.sqlite');
+        const db = new sqlite3.Database('/src/data/database.sqlite');
+
 
         db.serialize(() => {
             db.run(`

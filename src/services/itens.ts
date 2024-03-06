@@ -3,9 +3,11 @@
 import { produtoProps } from '@/components/pages/home/cardProduto';
 import sqlite3 from 'sqlite3';
 
+const db = new sqlite3.Database('/src/data/database.sqlite');
+
 export async function getItens(limit?: number): Promise<produtoProps[]> {
     try {
-        const db = new sqlite3.Database('db.sqlite');
+        
 
         // Array para armazenar os produtos
         const data: produtoProps[] = [];
@@ -36,7 +38,6 @@ export async function getItens(limit?: number): Promise<produtoProps[]> {
 
 export async function getItem(produtoId: number): Promise<produtoProps | undefined> {
     try {
-        const db = new sqlite3.Database('db.sqlite');
 
         return new Promise((resolve, reject) => {
             const sql = `SELECT * FROM produtos WHERE id = ?`;
@@ -57,7 +58,7 @@ export async function getItem(produtoId: number): Promise<produtoProps | undefin
 
 export async function getProdutosExceptId(excludedId: number, limit: number): Promise<produtoProps[]> {
     try {
-        const db = new sqlite3.Database('db.sqlite');
+        const db = new sqlite3.Database('/src/data/database.sqlite');
 
         return new Promise((resolve, reject) => {
             const sql = `SELECT * FROM produtos WHERE id != ? LIMIT ${limit}`;
@@ -78,7 +79,6 @@ export async function getProdutosExceptId(excludedId: number, limit: number): Pr
 
 export async function getItensWithSearch(search: string, limit: number): Promise<produtoProps[]> {
     try {
-        const db = new sqlite3.Database('db.sqlite');
 
         return new Promise((resolve, reject) => {
             const sql = `

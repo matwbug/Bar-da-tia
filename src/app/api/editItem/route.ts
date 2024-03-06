@@ -55,7 +55,7 @@ const editarItem = async (values: Dataprops) => {
         
         valoresParaAtualizar.push(values.id.toString());
 
-        const db = new sqlite3.Database('db.sqlite');
+        const db = new sqlite3.Database('/src/data/database.sqlite');
 
         db.serialize(() => {
             db.run(sql, valoresParaAtualizar);

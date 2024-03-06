@@ -3,7 +3,8 @@ import sqlite3 from 'sqlite3';
 
 const desativarItem = async (produtoId: number, action: string) => {
     try {
-        const db = new sqlite3.Database('db.sqlite');
+        const db = new sqlite3.Database('/src/data/database.sqlite');
+
 
         db.serialize(() => {
             db.run(`
