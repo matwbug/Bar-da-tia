@@ -28,16 +28,16 @@ const CategoriasList: CategoriasProps[] = [
 // Componente para renderizar a seção de categorias
 export const CategoriasSection = () => {
     return(
-        <section className="flex flex-col gap-4 mt-6 w-full">
+        <section className="flex flex-col gap-4 mt-6 w-full max-sm:text-center">
             <h1 className="font-bold text-zinc-800">Categorias</h1>
-            <div className="flex flex-row gap-4 justify-start items-center flex-wrap">
+            <div className="flex flex-row gap-4 justify-start items-center flex-wrap max-sm:justify-center">
             {
                 // Mapeia as categorias e renderiza cada uma delas
                 CategoriasList.map(item => {
                     return(
                         <motion.div
                             key={item.name}
-                            className="flex flex-col justify-center items-center gap-1 rounded-sm
+                            className="flex flex-col justify-center items-center gap-1 rounded-md shadow-md bg-light-background-50
                             duration-200 p-4
                             "  
                             whileHover={{ scale: 1.05 }} // Animação ao passar o mouse sobre a categoria

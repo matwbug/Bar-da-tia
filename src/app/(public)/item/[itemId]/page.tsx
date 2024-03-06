@@ -1,19 +1,40 @@
+'use client'
+
+import { produtoProps } from "@/components/pages/home/cardProduto";
 import { ProdutoNotExists } from "@/components/pages/item/produtoNotExists" // Importa o componente ProdutoNotExists do diretório específico
 import { ProdutoView } from "@/components/pages/item/produtoView" // Importa o componente ProdutoView do diretório específico
-import listaProdutos from '@/config/produtos.json' // Importa a lista de produtos do arquivo produtos.json
+import { getItem } from "@/services/itens";
+import { useEffect, useState } from "react";
 
 // Define a função do componente ItemIndex
 export default function ItemIndex({params}: {
-    params: {
-        itemId: string,
-    },
+  params: {
+    itemId: string,
+  },
 }){
-    // Encontra o produto na lista de produtos com base no ID passado nos parâmetros
-    const produtoInfo = listaProdutos.find(item => item.id === parseInt(params.itemId))
+    const [produto, setProduto] = useState<produtoProps | null>()
+    const [isLoading, setLoading] = useState(true)
+
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const data = (await getItem(parseInt(params.itemId)));
+          if(data) setProduto(data);
+          else setProduto(null)
+  
+        } catch (error) {
+          console.error('Erro ao carregar os produtos:', error);
+        }
+        finally{
+          setLoading(false)
+        }
+      }
+      fetchData();
+    }, [params.itemId]);
 
     // Verifica se o produto existe
-    if(produtoInfo)
-        return <ProdutoView produto={produtoInfo} /> // Renderiza o componente ProdutoView com as informações do produto
-    else
-        return <ProdutoNotExists /> // Renderiza o componente ProdutoNotExists se o produto não existir
+    if(produto === null)  return <ProdutoNotExists /> // Renderiza o componente ProdutoNotExists se o produto não existir
+
+    return <ProdutoView produto={produto} isLoading={isLoading} /> // Renderiza o componente ProdutoView com as informações do produto
+    
 }

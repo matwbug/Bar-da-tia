@@ -1,16 +1,33 @@
 'use client' // Define que este arquivo deve ser executado apenas no lado do cliente
 
 // Importa o componente CardProduto do diretório específico
-import { CardProduto } from "@/components/pages/home/cardProduto"
+import { CardProduto, produtoProps } from "@/components/pages/home/cardProduto"
 // Importa o componente CardProdutoPainel do diretório específico
 import { CardProdutoPainel } from "@/components/pages/painel/home/cardProdutoPainel"
+import { getItens } from "@/services/itens";
+import { useEffect, useState } from "react";
 // Importa a lista de produtos do arquivo produtos.json
-import listaProdutos from "@/config/produtos.json"
 // Importa o ícone GoGraph do pacote react-icons
 import { GoGraph } from "react-icons/go"
 
 // Define a função do componente Home
 export default function Home(){
+
+  const [itens, setItens] = useState<produtoProps[]>([])
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = (await getItens());
+        if(data) setItens(data);
+
+      } catch (error) {
+        console.error('Erro ao carregar os produtos:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return(
     // Estrutura principal da página
@@ -25,7 +42,7 @@ export default function Home(){
         {/* Lista de produtos mais vendidos */}
         <div className="flex flex-row gap-2 flex-wrap lg:justify-start sm:justify-center">
         {
-          listaProdutos
+          itens
           // Ordena os produtos por número de vendas
           .sort((a, b) => {
             return b.vendas - a.vendas // Ordenando por número vendas

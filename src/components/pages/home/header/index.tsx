@@ -9,9 +9,21 @@ import { CartNavbar } from "./cartNavbar"; // Importa o componente que controla 
 import { Logo } from "@/components/logo"; // Importa o componente do logotipo da aplicação
 import { useSession } from "next-auth/react"; // Importa o hook useSession do NextAuth para gerenciar a sessão do usuário
 import { NavLogged } from "./navLogged";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 
 export default function Header(){
     const { data } = useSession() // Obtém os dados da sessão do usuário
+    const { push } = useRouter()
+
+    const [search, setSearch] = useState('')
+
+    const handleSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        push(`/itens/${search}`);
+      } 
+    }
 
     return(
         <Navbar maxWidth="full" className="container w-screen align-middle text-black dark:text-white bg-dark"> {/* Define a barra de navegação com largura máxima igual à largura da tela */}
@@ -32,6 +44,9 @@ export default function Header(){
                 size="sm"
                 startContent={<BiSearch size={18} />} // Adiciona o ícone de pesquisa à esquerda do campo de entrada
                 type="search"
+                value={search}
+                onValueChange={setSearch}
+                onKeyUp={handleSearch}
               />
             </NavbarItem>
           </NavbarContent>

@@ -70,16 +70,16 @@ export const CardProduto = ({item}: {
     }
 
     return(
-        <div key={`item_${item.name}`} className="bg-light-background-50 hover:bg-light-background-100 shadow-md">
+        <div key={`item_${item.name}`} className="bg-light-background-50 hover:bg-light-background-100 shadow-md w-[19%] max-lg:w-[30%] min-w-[200px]">
             <Link 
                 href={`/item/${item.id}`}
+                className="w-full"
             >
                 {/* Componente com animações do Framer Motion */}
                 <motion.div className="duration-200 ease-in-out
-                    flex flex-col gap-4 justify-center items-center rounded-md p-4 w-40 h-64 
-                    max-lg:w-[200px]"
+                    flex flex-col gap-4 justify-center items-center rounded-md p-4 w-full h-64 max-lg:"
                     whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.1, velocity: .5 }}     
+                    transition={{ duration: 0.1, velocity: .5 }}    
                 >
                     <div className="w-[100%] h-[50%] flex items-center justify-center">
                         <Image 
@@ -104,7 +104,6 @@ export const CardProduto = ({item}: {
                                         -{calcularDesconto(item.preco, item.promocao_preco)}%
                                     </span>
                                 </div>
-                                
                                 <div className="flex flex-row justify-start items-center gap-2">
                                     
                                     <span className="text-tiny font-light dark:text-white line-through text-gray-700 ">

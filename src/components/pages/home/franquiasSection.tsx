@@ -113,9 +113,9 @@ const FranquiasList: FranquiaProps[] = [
 // Componente para renderizar a seção de franquias
 export const FranquiasSection = () => {
     return(
-        <section className="flex flex-col gap-4 mt-6">
+        <section className="flex flex-col gap-4 mt-6 w-full">
             <h1 className="font-bold text-zinc-800">Lojas afiliadas</h1>
-            <div className="flex flex-row gap-4 justify-start items-center flex-wrap">
+            <div className="flex flex-row gap-2 justify-start items-center flex-wrap w-full">
             {
                 // Mapeia as franquias e renderiza cada uma delas
                 FranquiasList.map(item => {
@@ -125,7 +125,7 @@ export const FranquiasSection = () => {
                             className="
                                 flex flex-row justify-center items-center gap-3 
                                 bg-light-background-50 p-4 rounded-md shadow-md 
-                                cursor-pointer max-md:w-[100%] max-lg:w-[48%] w-80 h-34
+                                cursor-pointer max-md:w-[100%] max-lg:w-[48%] w-[32.2%] h-34
                                 hover:bg-light-background-50/hover duration-300
                             "
                             whileHover={{ scale: 1.02 }} // Animação ao passar o mouse sobre a franquia

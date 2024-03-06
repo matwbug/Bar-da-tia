@@ -1,62 +1,68 @@
 import { produtoProps } from "@/components/pages/home/cardProduto"; // Importa a interface de props do produto
 import { readFile, writeFile } from "fs/promises"; // Importa funções de leitura e escrita de arquivos
 import { NextRequest, NextResponse } from "next/server"; // Importa tipos de solicitação e resposta do Next.js
+import sqlite3 from 'sqlite3';
 
 interface FormDataValues {
     [key: string]: string; // Define um tipo para os valores do formulário
 }
 
-// Função para ler os produtos do arquivo JSON
-const readProdutos = async (): Promise<produtoProps[]> => {
-    try {
-        const data = await readFile('./src/config/produtos.json'); // Lê os dados do arquivo
-        const produtos: produtoProps[] = JSON.parse(data.toString()); // Converte os dados em formato JSON
-        return produtos; // Retorna os produtos lidos do arquivo JSON
-    } catch (error) {
-        console.error('Erro ao ler o arquivo de produtos:', error); // Exibe um erro se ocorrer algum problema na leitura do arquivo
-        return []; // Retorna um array vazio em caso de erro
-    }
-}
-
 // Interface para os valores do formulário de edição do produto
 interface Dataprops {
-    name: string;
-    description: string;
-    preco: string;
-    quantidade: string;
-    atacado: string;
-    atacado_minquantidade: string;
-    promocao: string;
-    promocao_preco: string;
+    id: number,
+    name?: string;
+    description?: string;
+    preco?: string;
+    quantidade?: string;
+    atacado?: string;
+    atacado_minquantidade?: string;
+    promocao?: string;
+    promocao_preco?: string;
+    image?: string
 }
 
 // Função para editar um item de produto
-const editarItem = async (produtoInfo: produtoProps, valores: Dataprops) => {
+const editarItem = async (values: Dataprops) => {
     try {
-        const produtos = await readProdutos(); // Lê os produtos do arquivo JSON
+        const { id, ...valores } = values;
 
-        // Mapeia os produtos e atualiza o produto desejado com os novos valores
-        const newProdutos = produtos.map(item => {
-            if(item.id === produtoInfo.id){
-                return {
-                    ...item,
-                    name: valores.name,
-                    description: valores.description,
-                    preco: parseFloat(valores.preco),
-                    quantidade: parseInt(valores.quantidade),
-                    atacado: valores.atacado === 'sim' ? true : false,
-                    atacado_minquantidade: parseInt(valores.atacado_minquantidade),
-                    promocao: valores.promocao === 'sim' ? true : false,
-                    promocao_preco: parseFloat(valores.promocao_preco)
-                }
+        // Montar a parte da consulta SQL que define quais campos serão atualizados
+        let camposParaAtualizar = '';
+        const campos: string[] = [];
+
+        Object.entries(valores).forEach(([campo, valor], index) => {
+            if (valor !== undefined && valor !== null) {
+                campos.push(`${campo} = ?`);
             }
-            return item;
         });
+        camposParaAtualizar = campos.join(', ');
 
-        const novoConteudo = JSON.stringify(newProdutos, null, 2); // Converte os produtos atualizados de volta para JSON
-        await writeFile('./src/config/produtos.json', novoConteudo); // Escreve os produtos atualizados no arquivo
+        // Montar a consulta SQL de UPDATE
+        const sql = `
+            UPDATE produtos
+            SET ${camposParaAtualizar}
+            WHERE id = ?
+        `;
+
+        // Criar um array com os valores dos campos a serem atualizados
+        const valoresParaAtualizar: (string | undefined)[] = [];
+
+        Object.entries(valores).forEach(([campo, valor]) => {
+            if (valor !== undefined) {
+                valoresParaAtualizar.push(valor);
+            }
+        });
+        
+        valoresParaAtualizar.push(values.id.toString());
+
+        const db = new sqlite3.Database('db.sqlite');
+
+        db.serialize(() => {
+            db.run(sql, valoresParaAtualizar);
+        });
     } catch (error) {
         console.error('Erro ao alterar o arquivo:', error); // Exibe um erro se ocorrer algum problema na edição do arquivo
+        throw error;
     }
 }
 
@@ -73,12 +79,9 @@ export async function POST(req: NextRequest){
             }
         });
 
-        // Encontra o produto com base no ID fornecido nos valores do formulário
-        let produtoInfo = ((await readProdutos()).find(item => item.id === parseInt(valores.id)))
-        if(!produtoInfo) return NextResponse.json({success: false}); // Retorna false se o produto não for encontrado
-
-        // Chama a função para editar o item do produto com os novos valores
-        await editarItem(produtoInfo, {
+        await editarItem({
+            id: parseInt(valores.id),
+            image: valores.image,
             name: valores.name, 
             atacado: valores.atacado, 
             atacado_minquantidade: valores.atacado_minquantidade,
