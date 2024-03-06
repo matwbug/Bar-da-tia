@@ -8,8 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "update_schema": "npx prisma generate && npx prisma db push && npx prisma studio",
-    "vercel-build": "npx prisma migrate deploy"
+    "update_schema": "npx prisma generate && npx prisma db push && npx prisma studio"
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
