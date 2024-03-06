@@ -12,20 +12,22 @@ export const InputAddImage = ({item, setItem}: {
     const [selectedImage, setSelectedImage] = useState<string | undefined>() // Estado para armazenar a URL da imagem selecionada
 
     return(
-        <div className="relative flex justify-center items-center flex-col gap-2 w-full">
+        <div className="relative w-full flex justify-center items-center flex-col gap-2">
             {
                 selectedImage &&
-                <Image 
-                    src={selectedImage}
-                    alt={item.name}
-                    width={150}
-                    className="object-cover"
-                />
+                <div className="flex justify-center items-center w-20 h-20">
+                    <Image 
+                        src={selectedImage}
+                        alt={item.name}
+                        className="object-cover w-full h-full"
+                    />
+                </div>
             }
             <UploadButton 
                 endpoint="imageUploader"
                 onClientUploadComplete={(res) => {  
                     setSelectedImage(res[0].url)
+                    setItem({...item, image: res[0].url})
                 }}
                   
                 appearance={{
@@ -38,7 +40,8 @@ export const InputAddImage = ({item, setItem}: {
                   }}
                 content={{
                     button({ ready, isUploading, uploadProgress }) {
-                        if (ready) return <span className="text-center">Alterar imagem</span>;
+                        if (ready && selectedImage) return <span className="text-center">Alterar imagem</span>;
+                        if(ready) return <span className="text-center">Escolher imagem</span>
                         return "Carregando...";
                     },
                     allowedContent({ ready, fileTypes, isUploading, uploadProgress }) {

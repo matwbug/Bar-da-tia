@@ -138,7 +138,7 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto, 
                 }
                 {/* Cabeçalho do modal */}
                 <ModalHeader className="py-2 flex gap-3 flex-row justify-center items-center">
-                    <p>{produto.name}</p>
+                    <p>{produto.name.substring(0,40)}</p>
                     {/* Exibe o status do produto */}
                     {produto.status === 'DESATIVADO' 
                         ? <div className="border-1 border-red-500 bg-red-600/[0.3] text-red-500 p-1 rounded-lg">
@@ -156,7 +156,7 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto, 
                     <div className="flex flex-row gap-3 justify-between">  
                         {/* Seção de detalhes do produto */}
                         <div className="flex flex-col gap-2">
-                            <InputUploadImage item={produto} />
+                            <InputUploadImage item={produto} setProduto={setProduto} />
                             <div className="flex flex-row gap-3 justify-center">
                                 <span className="text-sm flex flex-col gap-1 items-center">Vendas <HiMiniShoppingCart /> <b>{produto.vendas}</b></span>
                                 <span className="text-sm flex flex-col gap-1 items-center">Estoque <IoLayers /> <b>{produto.quantidade}</b></span>
@@ -200,7 +200,7 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto, 
                     {/* Componente para edição de atacado */}
                     <CardInputAtacado produto={produto} setProduto={setProduto} variant="edit" />
                     {/* Botão para alternar o status do item */}
-                    {produto.status === 'ATIVADO' 
+                    {produto.status === 'ATIVO' 
                         ? <Button onClick={handleSwitchDisabledItem} color="danger" variant="flat" className="flex flex-row gap-1">
                             <GrDisabledOutline /> Desativar item
                           </Button>

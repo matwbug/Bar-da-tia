@@ -1,8 +1,6 @@
-import { produtoProps } from "@/components/pages/home/cardProduto"; // Importa o tipo produtoProps do diretório específico
-import { gerarSlug } from "@/lib/functions"; // Importa a função gerarSlug do diretório específico
-import { readFile, writeFile } from "fs/promises"; // Importa as funções readFile e writeFile do módulo fs/promises
+import { gerarSlug, prisma } from "@/lib/functions"; // Importa a função gerarSlug do diretório específico
+import { ProdutoStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server"; // Importa os tipos NextRequest e NextResponse do módulo next/server
-import sqlite3 from 'sqlite3';
 
 // Interface para definir os tipos dos valores do formulário
 interface FormDataValues{
@@ -19,28 +17,30 @@ interface FormDataValues{
     status: string 
 }
 
-
 // Função para adicionar um novo item ao arquivo de produtos
 const adicionarItem = async (values: FormDataValues) => {
     try {
-        const db = new sqlite3.Database('./src/data/database.sqlite');
-
-
-        db.serialize(() => {
-            db.run(`
-                    INSERT INTO produtos (name, description, slug, preco, image, quantidade, promocao, promocao_preco, atacado, atacado_minquantidade, vendas, status)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    `, [values.name, values.description, gerarSlug(values.name), values.preco, values.image, values.quantidade, values.promocao === 'sim' ? true : false, values.promocao_preco, values.atacado === 'sim' ? true : false, values.atacado_minquantidade, values.vendas, values.status], 
-                    function(err) {
-                        if (err) {
-                            console.error(err.message);
-                        } 
-                    }
-            ); 
+        return await prisma.produtos.create({
+            data: {
+                name: values.name,
+                description: values.description,
+                preco: parseFloat(values.preco),
+                imageUrl: values.image,
+                quantidade: parseInt(values.quantidade),
+                promocao: values.promocao === 'sim' ? true : false,
+                atacado: values.atacado === 'sim' ? true : false,
+                atacado_minquantidade: parseInt(values.atacado_minquantidade),
+                promocao_preco: parseFloat(values.promocao_preco),
+                slug: gerarSlug(values.name),
+                status: ['ATIVO', 'DESATIVADO'].includes(values.status) ? values.status as ProdutoStatus : 'ATIVO',
+                vendas: Math.floor((Math.random() * 100) * 100) / 100,
+            }
         })
+
     } 
     catch (error) {
-        console.error('Erro ao alterar o arquivo:', error);
+        console.error(`Erro ao criar novo item ${values.name.toLocaleUpperCase()}:`, error);
+        throw Error(`Erro ao criar novo item ${values.name.toLocaleUpperCase()}:`)
     }
 }
 
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest){
 
         await adicionarItem(valores) // Adiciona o novo item
 
-        return new NextResponse(JSON.stringify({success: true}), {
+        return new NextResponse(JSON.stringify({success: true }), {
             status: 200 // Define o status da resposta para 200 (OK)
         });
     }

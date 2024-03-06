@@ -13,20 +13,30 @@ import { getItens } from "@/services/itens"
 export default function ItensIndexPainel(){
   // Define os estados para controlar a abertura do modal e a lista de produtos
   const [modalOpen, setModalOpen] = useState(false)
-  const [produtos, setProdutos] = useState<produtoProps[]>([]);
+  const [produtos, setProdutos] = useState<produtoProps[]>([
+    { id: 1, name: '', description: '', preco: 0, imageUrl: '', quantidade: 0, promocao: false, promocao_preco: 0, atacado: false, atacado_minquantidade: 0, vendas: 0, status: 'ATIVO', slug: '' },
+    { id: 2, name: '', description: '', preco: 0, imageUrl: '', quantidade: 0, promocao: false, promocao_preco: 0, atacado: false, atacado_minquantidade: 0, vendas: 0, status: 'ATIVO', slug: '' },
+    { id: 3, name: '', description: '', preco: 0, imageUrl: '', quantidade: 0, promocao: false, promocao_preco: 0, atacado: false, atacado_minquantidade: 0, vendas: 0, status: 'ATIVO', slug: '' },
+    { id: 4, name: '', description: '', preco: 0, imageUrl: '', quantidade: 0, promocao: false, promocao_preco: 0, atacado: false, atacado_minquantidade: 0, vendas: 0, status: 'ATIVO', slug: '' },
+    { id: 5, name: '', description: '', preco: 0, imageUrl: '', quantidade: 0, promocao: false, promocao_preco: 0, atacado: false, atacado_minquantidade: 0, vendas: 0, status: 'ATIVO', slug: '' }
+  ]);
+  const [loading, setLoading] = useState(true)
+
+  async function fetchItens() {
+    try {
+      const data = (await getItens()).sort((a, b) => b.vendas - a.vendas);
+      if(data) setProdutos(data);
+
+    } catch (error) {
+      console.error('Erro ao carregar os produtos:', error);
+    }
+    finally{
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = (await getItens()).sort((a, b) => b.vendas - a.vendas);
-        if(data) setProdutos(data);
-
-      } catch (error) {
-        console.error('Erro ao carregar os produtos:', error);
-      }
-    }
-
-    fetchData();
+    fetchItens();
   }, []); 
 
   return(
@@ -37,6 +47,7 @@ export default function ItensIndexPainel(){
         setModalOpen={setModalOpen}
         produtos={produtos}
         setProdutos={setProdutos}
+        fetchData={fetchItens}
       />   
       {/* Estrutura principal da página */}
       <div className={`flex flex-col mx-1 mt-3 h-full gap-1`}>
@@ -47,7 +58,7 @@ export default function ItensIndexPainel(){
             <IoAddCircle /> Adicionar novo produto
           </Button>
           {/* Tabela de itens */}
-          <TableItens produtos={produtos} />
+          <TableItens produtos={produtos} isLoaded={loading} fetchItens={fetchItens} />
         </div>
       </div>
     </>

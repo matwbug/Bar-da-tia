@@ -10,7 +10,7 @@ export const CartCardPopover = ({item, quantity}: {
         <div className="flex flex-row justify-between items-center gap-1 w-full pr-2"> {/* Container flexível para os detalhes do item */}
             <div className="w-[50px]"> {/* Container para a imagem do item */}
                 <Image 
-                    src={item.image} // Define a origem da imagem como a propriedade image do item
+                    src={item.imageUrl} // Define a origem da imagem como a propriedade image do item
                     alt={item.name} // Define o texto alternativo para a imagem como o nome do item
                     className="object-cover w-full h-full" // Aplica estilos para a imagem
                     classNames={{

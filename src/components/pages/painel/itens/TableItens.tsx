@@ -17,14 +17,16 @@ import { ModalEditProduto } from "../home/modalEditProduto"  // Importa o compon
 import { TableItensBottomContent, TableItensTopContent } from "./components/contents"  // Importa componentes de conteúdo da tabela
 
 // Componente TableItens
-export const TableItens = ({produtos}: {
+export const TableItens = ({produtos, isLoaded, fetchItens}: {
     produtos: produtoProps[]
+    isLoaded: boolean
+    fetchItens: () => void
 }) => {
     // Estados para controle de carregamento, produto selecionado, abertura do modal e itens da tabela
     const [loading, setLoading] = useState(false)
     const [produto, setProduto] = useState<produtoProps>()
     const [modalOpen, setModalOpen] = useState(false)
-    const [itens, setItens] = useState<produtoProps[]>(produtos)
+    const [itens, setItens] = useState<produtoProps[]>(produtos);
 
     // Estado para filtro de busca
     const [filterValue, setFilterValue] = useState('')
@@ -149,7 +151,7 @@ export const TableItens = ({produtos}: {
             >
                 {(item) => (
                     <TableRow key={`${item.id}`}>
-                    {(columnKey) => <TableCell key={columnKey}>{renderCell(item, columnKey, setProduto, setModalOpen, setLoading)}</TableCell>}
+                    {(columnKey) => <TableCell key={columnKey}>{renderCell(item, columnKey, setProduto, setModalOpen, setLoading, isLoaded, fetchItens)}</TableCell>}
                     </TableRow>
                 )}
             </TableBody>

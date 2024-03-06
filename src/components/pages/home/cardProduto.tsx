@@ -6,23 +6,11 @@ import { useEffect, useState } from "react"; // Importa o hook useState do React
 import { FaArrowDown, FaMinus, FaPlus } from "react-icons/fa"; // Importa os ícones necessários da biblioteca React Icons
 import { useCart } from "@/contexts/cartContext"; // Importa o contexto de carrinho
 import { MdAddShoppingCart } from "react-icons/md"; // Importa o ícone de adicionar ao carrinho
+import { Produtos } from "@prisma/client";
 
 // Define o tipo para as propriedades dos produtos
-export type produtoProps = {
-    id: number
-    name: string
-    description: string
-    slug: string
-    preco: number
-    image: string
-    quantidade: number
-    promocao: boolean
-    promocao_preco: number
-    atacado: boolean
-    atacado_minquantidade: number
-    vendas: number
-    status: string
-}
+export interface produtoProps extends Produtos {}
+
 
 // Componente para renderizar um card de produto
 export const CardProduto = ({item}: {
@@ -83,7 +71,7 @@ export const CardProduto = ({item}: {
                 >
                     <div className="w-[100%] h-[50%] flex items-center justify-center">
                         <Image 
-                            src={item.image}
+                            src={item.imageUrl}
                             alt={item.name}
                             className="object-cover w-full h-full"
                             classNames={{

@@ -30,16 +30,16 @@ export const TableItensBottomContent = ({page, pages, setPage}: {
     pages: number
     setPage: (page: number) => void
 }) => {
+
     return(
         <div className="flex w-full justify-center">
             <Pagination 
-                isCompact
                 showControls
                 showShadow
                 color="primary"
                 page={page}
                 total={pages}
-                hidden={pages <= 1}
+                hidden={pages === 1}
                 onChange={(page) => setPage(page)}   
             />
         </div>

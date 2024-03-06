@@ -1,24 +1,14 @@
+import { prisma } from "@/lib/functions";
 import { NextRequest, NextResponse } from "next/server";
-import sqlite3 from 'sqlite3';
 
-const desativarItem = async (produtoId: number, action: string) => {
+const desativarItem = async (produtoId: number, action: 'DESATIVAR' | 'ATIVAR') => {
     try {
-        const db = new sqlite3.Database('/src/data/database.sqlite');
-
-
-        db.serialize(() => {
-            db.run(`
-                UPDATE produtos
-                SET status = ?
-                WHERE id = ?
-            `, [action, produtoId],
-                function(err) {
-                    if (err) {
-                        console.error(err.message);
-                    } 
-                }
-            )
-        })
+       await prisma.produtos.update({
+        where: {id: produtoId},
+        data: {
+            status: action === 'ATIVAR' ? 'ATIVO' : 'DESATIVADO'
+        }
+       })
         
     } catch (error) {
         console.error('Erro ao alterar o arquivo:', error);
@@ -32,11 +22,11 @@ export async function POST(req: NextRequest){
         const produtoId = data.get('produtoId') as unknown as string
         const action = data.get('action') as unknown as string
 
-        if(!produtoId || !action || action !== 'ATIVO' && action !== 'DESATIVADO'){
+        if (!produtoId || !action || !['ATIVAR', 'DESATIVAR'].includes(action as string)) {
             throw new Error('Por favor, preencha todos os campos obrigatórios.');
         }
 
-        await desativarItem(parseInt(produtoId), action)
+        await desativarItem(parseInt(produtoId), action as 'DESATIVAR' | 'ATIVAR');
 
         return NextResponse.json({success: true})
     }catch(error){

@@ -1,7 +1,7 @@
 import { produtoProps } from "@/components/pages/home/cardProduto"; // Importa a interface de props do produto
+import { gerarSlug, prisma } from "@/lib/functions";
 import { readFile, writeFile } from "fs/promises"; // Importa funções de leitura e escrita de arquivos
 import { NextRequest, NextResponse } from "next/server"; // Importa tipos de solicitação e resposta do Next.js
-import sqlite3 from 'sqlite3';
 
 interface FormDataValues {
     [key: string]: string; // Define um tipo para os valores do formulário
@@ -24,42 +24,21 @@ interface Dataprops {
 // Função para editar um item de produto
 const editarItem = async (values: Dataprops) => {
     try {
-        const { id, ...valores } = values;
-
-        // Montar a parte da consulta SQL que define quais campos serão atualizados
-        let camposParaAtualizar = '';
-        const campos: string[] = [];
-
-        Object.entries(valores).forEach(([campo, valor], index) => {
-            if (valor !== undefined && valor !== null) {
-                campos.push(`${campo} = ?`);
+        prisma.produtos.update({
+            where: {id: values.id},
+            data: {
+                name: values.name,
+                description: values.description,
+                preco: values.preco ? parseFloat(values.preco) : undefined,
+                atacado: values.atacado ? values.atacado === 'sim' ? true : false : undefined,
+                promocao: values.promocao ? values.promocao === 'sim' ? true : false : undefined,
+                atacado_minquantidade: values.atacado_minquantidade ? parseInt(values.atacado_minquantidade) : undefined,
+                promocao_preco: values.promocao_preco ? parseFloat(values.promocao_preco) : undefined,
+                imageUrl: values.image,
+                quantidade: values.quantidade ? parseInt(values.quantidade) : undefined,
+                slug: values.name ? gerarSlug(values.name) : undefined,
             }
-        });
-        camposParaAtualizar = campos.join(', ');
-
-        // Montar a consulta SQL de UPDATE
-        const sql = `
-            UPDATE produtos
-            SET ${camposParaAtualizar}
-            WHERE id = ?
-        `;
-
-        // Criar um array com os valores dos campos a serem atualizados
-        const valoresParaAtualizar: (string | undefined)[] = [];
-
-        Object.entries(valores).forEach(([campo, valor]) => {
-            if (valor !== undefined) {
-                valoresParaAtualizar.push(valor);
-            }
-        });
-        
-        valoresParaAtualizar.push(values.id.toString());
-
-        const db = new sqlite3.Database('/src/data/database.sqlite');
-
-        db.serialize(() => {
-            db.run(sql, valoresParaAtualizar);
-        });
+        })
     } catch (error) {
         console.error('Erro ao alterar o arquivo:', error); // Exibe um erro se ocorrer algum problema na edição do arquivo
         throw error;

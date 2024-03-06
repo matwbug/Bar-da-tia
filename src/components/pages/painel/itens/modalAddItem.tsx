@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Textarea } from "@nextui-org/react"
+import { Accordion, AccordionItem, Button, CircularProgress, Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Textarea } from "@nextui-org/react"
 import { ReactNode, useState } from "react"
 import { InputUploadImage } from "../home/components/inputUploadImage"
 import { produtoProps } from "../../home/cardProduto"
@@ -15,13 +15,16 @@ import { BsExclamation } from "react-icons/bs"
 import { FaExclamationCircle } from "react-icons/fa"
 import { useRouter } from "next/navigation"
 import { CardAvailableItem } from "../home/components/cardAvailableItem"
+import { GrDocumentConfig } from "react-icons/gr"
+import { FaGear } from "react-icons/fa6"
+import { fetchData } from "next-auth/client/_utils"
 
 // Interface para os dados do produto a serem adicionados
 export interface FormDataProduto {
     name?: string
     description?: string
     preco?: number
-    image?: File
+    image?: string
     quantidade?: number
     promocao?: boolean
     promocao_preco?: number | null
@@ -32,17 +35,17 @@ export interface FormDataProduto {
 }
 
 // Componente ModalAddItem
-export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos}: {
+export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos, fetchData}: {
     modalOpen: boolean,
     setModalOpen: (val: boolean) => void
     produtos: produtoProps[],
     setProdutos: (produtos: produtoProps[]) => void
+    fetchData: () => Promise<void>
 }) => {
     // Estados para controle do carregamento, novo item e validação
     const [loading, setLoading] = useState(false)
     const [newItem, setNewItem] = useState<FormDataProduto>({})
     const [valid, setValid] = useState<{valid: boolean, message?: ReactNode}>({valid: true})
-    const router = useRouter()
 
     // Função para adicionar um novo item de produto
     const handleAddItem = async () => {
@@ -79,8 +82,7 @@ export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos}: {
                 const data: {newItem: produtoProps} = await result.json()
                 try {
                     // Adiciona o novo item à lista de produtos e fecha o modal
-                    const newProdutos = [...produtos, {...data.newItem}].sort((a, b) => b.id - a.id)
-                    setProdutos(newProdutos)
+                    fetchData()
                     setModalOpen(false) 
                     setNewItem({})
                 } catch (error) {
@@ -104,7 +106,7 @@ export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos}: {
         <Modal
             isOpen={modalOpen}
             onOpenChange={setModalOpen}
-            size="lg"
+            size="2xl"
             backdrop="opaque"
             radius="lg"
         >
@@ -161,7 +163,6 @@ export const ModalAddItem = ({modalOpen, setModalOpen, setProdutos, produtos}: {
                             <ProdutoPriceInput formData={newItem} setFormData={setNewItem} variant="add" />
                         </div>
                     </div>
-                    <Divider />
                     <div className="flex flex-col gap-1">
                         {/* Componente para inserir o estoque do produto */}
                         <CardInputEditEstoque produto={newItem} setProduto={setNewItem} /> 

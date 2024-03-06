@@ -1,26 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import sqlite3 from 'sqlite3';
+import { PrismaClient, Produtos } from '@prisma/client'
+import { prisma } from "@/lib/functions";
 
 const excluirItem = async (produtoId: number) => {
     try {
-        const db = new sqlite3.Database('/src/data/database.sqlite');
-
-
-        db.serialize(() => {
-            db.run(`
-                DELETE FROM produtos
-                WHERE id = ?
-            `, [produtoId],
-                function(err) {
-                    if (err) {
-                        throw new Error('Não foi possível excluir o item')
-                    } 
-                }
-            )
+        await prisma.produtos.delete({
+            where: {id: produtoId}
         })
         
+        
+
     } catch (error) {
-        console.error('Erro ao alterar o arquivo:', error);
+        console.error('Não foi possível excluir o item', error);
+        throw Error('Não foi possível excluir o item')
     }
 }
 
@@ -37,8 +29,12 @@ export async function POST(req: NextRequest){
         await excluirItem(parseInt(produtoId))
 
         return NextResponse.json({success: true})
-    }catch(error){
+    }
+    catch(error){
         console.log(`Aconteceu algum erro \n Erro: ${error}`)
         return NextResponse.json({success: false})
     }
+    finally{
+        await prisma.$disconnect()
+    } 
 }

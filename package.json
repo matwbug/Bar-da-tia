@@ -7,10 +7,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update_schema": "npx prisma generate && npx prisma db push && npx prisma studio",
+    "vercel-build": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
+    "@prisma/client": "^5.10.2",
     "@react-stately/data": "^3.11.2",
     "@uploadthing/react": "^6.3.2",
     "framer-motion": "^11.0.5",
@@ -20,7 +23,6 @@
     "react-dom": "^18",
     "react-icons": "^5.0.1",
     "react-number-format": "^5.3.1",
-    "sqlite3": "^5.1.7",
     "uploadthing": "^6.5.0"
   },
   "devDependencies": {
@@ -32,6 +34,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
+    "prisma": "^5.10.2",
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"

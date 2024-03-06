@@ -11,11 +11,12 @@ import { Image } from "@nextui-org/react";
  * Componente InputUploadImage
  * 
  * @param {object} item - As informações do produto.
- */
-export const InputUploadImage = ({item}: {
+*/
+export const InputUploadImage = ({item, setProduto}: {
     item: produtoProps
+    setProduto: (item: produtoProps) => void
 }) => {
-    const [selectedImage, setSelectedImage] = useState<string>(item.image)
+    const [selectedImage, setSelectedImage] = useState<string>(item.imageUrl)
 
     return(
         <div className="relative w-fit h-fit flex justify-center items-center flex-col gap-2">
@@ -32,6 +33,7 @@ export const InputUploadImage = ({item}: {
                 endpoint="imageUploader"
                 onClientUploadComplete={(res) => {  
                     setSelectedImage(res[0].url)
+                    setProduto({...item, imageUrl: res[0].url})
                 }}
                   
                 appearance={{
@@ -43,7 +45,7 @@ export const InputUploadImage = ({item}: {
                     },
                   }}
                 content={{
-                    button({ ready, isUploading, uploadProgress }) {
+                    button({ ready }) {
                         if (ready) return <span className="text-center">Alterar imagem</span>;
                         return "Carregando...";
                     },
