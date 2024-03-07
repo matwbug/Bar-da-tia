@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/extension";
 
 export function gerarSlug(value: string) {
     return value.toString().toLowerCase()
@@ -10,3 +10,4 @@ export function gerarSlug(value: string) {
         .replace(/^-+/, '')         // Remove hífens do início do texto
         .replace(/-+$/, '');        // Remove hífens do final do texto
 }
+
