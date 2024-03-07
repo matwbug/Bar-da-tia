@@ -5,11 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx prisma generate && next build",
     "start": "next start",
-    "lint": "next lint",
-    "update_schema": "npx prisma generate && npx prisma db push && npx prisma studio",
-    "vercel-build": "prisma generate && npx next build"
+    "lint": "next lint"
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.9",

@@ -1,5 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+let prisma: PrismaClient;
+
+declare global {
+    var prisma: PrismaClient | undefined;
+}
+
+if (!global.prisma) {
+    global.prisma = new PrismaClient({
+        log: ['query', 'info', 'warn', 'error'],
+    });
+}
+prisma = global.prisma;
 
 export default prisma;
