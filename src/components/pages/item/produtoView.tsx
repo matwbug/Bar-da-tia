@@ -25,7 +25,7 @@ export const ProdutoView = ({ produto, isLoading }: {
                         }
                         <div className="w-80 h-80 p-5 flex justify-center items-center">
                             <Image
-                                src={produto.image}
+                                src={produto.imageUrl}
                                 alt={produto.name}
                                 className="object-cover w-full h-full"
                             />

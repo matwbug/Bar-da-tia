@@ -25,7 +25,6 @@ export default function ItensIndexPainel(){
   async function fetchItens() {
     try {
       const data = (await getItens()).sort((a, b) => b.vendas - a.vendas);
-      console.log(data)
       if(data) setProdutos(data);
 
     } catch (error) {

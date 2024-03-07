@@ -8,7 +8,7 @@ declare global {
 
 if (!global.prisma) {
     global.prisma = new PrismaClient({
-        log: ['query', 'info', 'warn', 'error'],
+        log: ['warn', 'error'],
     });
 }
 prisma = global.prisma;
