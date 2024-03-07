@@ -38,7 +38,7 @@ export default function Home(){
 
   return(
     // Estrutura principal da página
-    <div className={`container flex mx-1 mt-3 h-full flex-col gap-2`}>
+    <div className={`flex mx-1 mt-3 h-full flex-col gap-2`}>
       <div 
         className="
         bg-light-background-50 shadow-sm h-fit p-6 rounded-md w-full gap-3 flex flex-col
@@ -54,7 +54,7 @@ export default function Home(){
               ? itens
                 .sort((a, b) => {return b.vendas - a.vendas}) // Ordena os produtos com base nas vendas (do maior para o menor)
                 .map(item => { // Mapeando os produtos e renderizando cada um deles
-                    return <CardProdutoPainel key={item.name} item={item} />
+                    return <CardProdutoPainel key={item.name} item={item} fetchData={fetchData}/>
                 })
               : <div className="flex flex-row justify-center items-center gap-4 mt-2">
                   <span>Nenhum item encontrado </span>

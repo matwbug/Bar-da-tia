@@ -15,6 +15,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { CardInputEstoque } from "./components/cardInputEstoque";
 import { HiMiniShoppingCart } from "react-icons/hi2";
 import { IoLayers } from "react-icons/io5";
+import { fetchData } from "next-auth/client/_utils";
 
 /**
  * Componente ModalEditProduto
@@ -28,13 +29,14 @@ import { IoLayers } from "react-icons/io5";
  * @param {array} itens - Lista de itens.
  * @param {function} setItens - Função para atualizar a lista de itens.
  */
-export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto, itens, setItens}: {
+export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto, itens, setItens, fetchData}: {
     modalOpen: boolean,
     setModalOpen: (val: boolean) => void
     produto: produtoProps
     setProduto: (produto: produtoProps) => void
     itens?: produtoProps[]
     setItens?: (itens: produtoProps[]) => void
+    fetchData: () => void
 }) => {
     // Estado para controlar o carregamento
     const [loading, setLoading] = useState(false);
@@ -53,18 +55,8 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto, 
                 body: formData
             }).then(async(result) => {return await result.json()});
 
-            if(result.success && itens && setItens){
-                setProduto({...produto, status: result.status});
-                const newList: produtoProps[] = itens.map(item => {
-                    if(item.id === produto.id){
-                        return {
-                            ...item,
-                            status: result.status
-                        };
-                    }
-                    return item;
-                });
-                setItens(newList);
+            if(result.success){
+                fetchData()
             }
         } catch(error) {
             console.error(`Erro ao desativar item. Erro: ${error}`);
@@ -94,26 +86,8 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto, 
                 body: formData
             }).then(async(res) => {return await res.json()});
 
-            if(result.success && itens && setItens){
-                setCachedProduto(produto);
-                setProduto({...produto, status: result.status});
-                const newList: produtoProps[] = itens.map(item => {
-                    if(item.id === produto.id){
-                        return {
-                            ...item,
-                            name: produto.name,
-                            description: produto.description,
-                            preco: produto.preco,
-                            quantidade: produto.quantidade,
-                            atacado: produto.atacado,
-                            atacado_minquantidade: produto.atacado_minquantidade,
-                            promocao: produto.promocao,
-                            promocao_preco: produto.promocao_preco
-                        };
-                    }
-                    return item;
-                });
-                setItens(newList);
+            if(result.success){
+                fetchData()
             }
         } catch(error) {
             console.log('Não foi possível salvar as alterações. Erro:', error);

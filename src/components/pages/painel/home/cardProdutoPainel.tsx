@@ -10,8 +10,9 @@ import { motion } from 'framer-motion'
  * 
  * @param {object} item - As informações do produto.
  */
-export const CardProdutoPainel = ({item}: {
+export const CardProdutoPainel = ({item, fetchData}: {
     item: produtoProps
+    fetchData: () => void
 }) => {
 
     // Função para calcular o desconto percentual
@@ -34,9 +35,10 @@ export const CardProdutoPainel = ({item}: {
             setProduto={setProduto}
             modalOpen={modalOpen}
             setModalOpen={setModalOpen}
+            fetchData={fetchData}
         />
         {/* Card do produto */}
-        <div key={`item_${item.name}`} className="bg-light-background-50 hover:bg-light-background-100 shadow-md w-[19%] max-lg:w-[30%] min-w-[200px] h-80 flex justify-center items-center">
+        <div key={`item_${item.name}`} className="bg-light-background-50 hover:bg-light-background-100 shadow-md w-[19%] max-lg:w-[30%] min-w-[200px] h-80 flex justify-center items-center max-w-72">
             {/* Componente com animações do Framer Motion */}
             <motion.div className="duration-200 ease-in-out cursor-pointer
                 flex flex-col gap-4 justify-center items-center rounded-md p-4 w-full h-64"

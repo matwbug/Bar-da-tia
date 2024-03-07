@@ -27,7 +27,9 @@ interface Dataprops {
 // Função para editar um item de produto
 const editarItem = async (values: Dataprops) => {
     try {
-        prisma.produtos.update({
+        console.log(values)
+
+        await prisma.produtos.update({
             where: {id: values.id},
             data: {
                 name: values.name,
@@ -43,7 +45,7 @@ const editarItem = async (values: Dataprops) => {
             }
         })
     } catch (error) {
-        console.error('Erro ao alterar o arquivo:', error); // Exibe um erro se ocorrer algum problema na edição do arquivo
+        console.error('Erro ao alterar o item:', error); // Exibe um erro se ocorrer algum problema na edição do arquivo
         throw error;
     }
 }
