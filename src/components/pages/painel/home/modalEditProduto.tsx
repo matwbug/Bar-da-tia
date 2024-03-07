@@ -8,7 +8,7 @@ import { CardInputAtacado } from "./components/cardInputAtacado";
 import { BsBoxArrowInDown } from "react-icons/bs";
 import { CardInputPromocao } from "./components/cardInputPromocao";
 import { GrDisabledOutline } from "react-icons/gr";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VscVmActive } from "react-icons/vsc";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoIosCloseCircle } from "react-icons/io";
@@ -87,6 +87,7 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto, 
             formData.append('atacado_minquantidade', produto.atacado_minquantidade?.toString() ?? '0');
             formData.append('promocao', produto.promocao ? 'sim' : 'nao');
             formData.append('promocao_preco', produto.promocao_preco?.toString() ?? '0');
+            formData.append('image', produto.imageUrl);
 
             const result = await fetch('/api/editItem', {
                 method: 'POST',
@@ -120,7 +121,7 @@ export const ModalEditProduto = ({modalOpen, setModalOpen, produto, setProduto, 
             setLoading(false);
         }
     }
-
+    
     return (
         <Modal
             isOpen={modalOpen}
