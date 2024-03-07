@@ -7,7 +7,6 @@ import { NextRequest, NextResponse } from "next/server"; // Importa os tipos Nex
 
 import prisma from '@/lib/prisma'
 
-
 // Função para lidar com a requisição POST
 export async function POST(req: NextRequest){
     try{
