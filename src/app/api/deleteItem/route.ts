@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient, Produtos } from '@prisma/client'
-import { prisma } from "@/lib/functions";
+import prisma from '@/lib/prisma'
 
 const excluirItem = async (produtoId: number) => {
     try {

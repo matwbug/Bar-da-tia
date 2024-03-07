@@ -1,9 +1,12 @@
 
 import produtos from '@/config/produtos.json'
 
-import { gerarSlug, prisma } from "@/lib/functions"; // Importa a função gerarSlug do diretório específico
+import { gerarSlug } from "@/lib/functions"; // Importa a função gerarSlug do diretório específico
 import { ProdutoStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server"; // Importa os tipos NextRequest e NextResponse do módulo next/server
+
+import prisma from '@/lib/prisma'
+
 
 // Função para lidar com a requisição POST
 export async function POST(req: NextRequest){

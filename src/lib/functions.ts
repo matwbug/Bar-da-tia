@@ -10,6 +10,3 @@ export function gerarSlug(value: string) {
         .replace(/^-+/, '')         // Remove hífens do início do texto
         .replace(/-+$/, '');        // Remove hífens do final do texto
 }
-
-
-export const prisma = new PrismaClient()

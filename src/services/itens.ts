@@ -1,8 +1,8 @@
 'use server'
 
-import { PrismaClient, Produtos } from '@prisma/client'
+import { Produtos } from '@prisma/client'
+import prisma from '@/lib/prisma'
 
-const prisma = new PrismaClient()
 
 export async function getItens(limit?: number): Promise<Produtos[]> {
     try {

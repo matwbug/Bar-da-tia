@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/functions";
+import prisma from '@/lib/prisma'
 import { NextRequest, NextResponse } from "next/server";
 
 const desativarItem = async (produtoId: number, action: 'DESATIVAR' | 'ATIVAR') => {

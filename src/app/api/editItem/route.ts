@@ -1,7 +1,10 @@
 import { produtoProps } from "@/components/pages/home/cardProduto"; // Importa a interface de props do produto
-import { gerarSlug, prisma } from "@/lib/functions";
+import { gerarSlug } from "@/lib/functions";
 import { readFile, writeFile } from "fs/promises"; // Importa funções de leitura e escrita de arquivos
 import { NextRequest, NextResponse } from "next/server"; // Importa tipos de solicitação e resposta do Next.js
+
+import prisma from '@/lib/prisma'
+
 
 interface FormDataValues {
     [key: string]: string; // Define um tipo para os valores do formulário

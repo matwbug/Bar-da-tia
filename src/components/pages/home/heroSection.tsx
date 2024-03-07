@@ -4,10 +4,21 @@ import { Button, Image } from "@nextui-org/react";
 import { CardProduto, produtoProps } from "./cardProduto"; // Importa o componente CardProduto e o tipo produtoProps
 import { useEffect, useState } from "react";
 import { CardProdutoSkeleton } from "./cardProdutoSkeleton";
-import { getItens } from "@/services/itens";
 import { BiRefresh } from "react-icons/bi";
+import prisma from '@/lib/prisma'
 
 // Componente para renderizar a seção de produtos mais vendidos
+
+async function getItens(){
+  const itens = await prisma.produtos.findMany({
+    where: {
+      status: 'ATIVO'
+    }
+  })
+
+  return itens;
+}
+
 export const HeroSection = () => {
     const [isLoading, setLoading] = useState(true)
     const [produtos, setProdutos] = useState<produtoProps[]>([])
@@ -16,7 +27,7 @@ export const HeroSection = () => {
 
     async function fetchData() {
       try {
-        const data = (await getItens(limitPerPage)).sort((a, b) => b.vendas - a.vendas);
+        const data = (await getItens()).sort((a, b) => b.vendas - a.vendas);
         if(data) setProdutos(data);
 
       } catch (error) {
