@@ -13,7 +13,7 @@ export default function Providers({children}: {children: ReactNode}){
 
     return(
         <NextUIProvider navigate={router.push}> {/* Fornece o provedor de UI do NextUI com a função de navegação */}
-            <AlertAuthor> {/* Fornece o provedor de alerta de autor */}
+            <AlertAuthor> {/* Fornece o provedor de alerta do autor */}
                 <NextAuthSessionProvider> {/* Fornece o provedor de sessão do NextAuth */}
                     <CartProvider> {/* Fornece o provedor de carrinho */}
                         {children} {/* Renderiza os componentes filhos */}

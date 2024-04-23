@@ -8,10 +8,6 @@ import { AuthOptions, NextAuthOptions } from "next-auth"; // Importa os tipos Au
 export const nextAuthOptions: AuthOptions = {
     secret: process.env.NEXTAUTH_SECRET ?? "", // Define a chave secreta para NextAuth
     providers: [
-        GithubProvider({ // Configuração do provedor de autenticação do GitHub
-            clientId: process.env.GITHUB_ID ?? "", // ID do cliente do GitHub
-            clientSecret: process.env.GITHUB_SECRET ?? "" // Segredo do cliente do GitHub
-        }),
         CredentialsProvider({ // Configuração do provedor de autenticação de credenciais
             name: "Credentials", // Nome do provedor
             credentials: { // Configuração das credenciais necessárias
@@ -19,7 +15,8 @@ export const nextAuthOptions: AuthOptions = {
               password: { label: "Senha", type: "password" } // Campo de entrada de senha
             },
             async authorize(credentials, req) { // Função de autorização para verificar as credenciais
-                const isValidCredentials = validUsers.find(validUser => validUser.username === credentials?.username && validUser.password === credentials.password); // Verifica se as credenciais são válidas
+
+                const isValidCredentials = validUsers.find(validUser => validUser.username.toLowerCase() === credentials?.username.toLowerCase() && validUser.password === credentials.password); // Verifica se as credenciais são válidas
                 if(isValidCredentials){ // Se as credenciais forem válidas
                     return { // Retorna os dados do usuário autenticado
                         id: isValidCredentials.id.toString(),

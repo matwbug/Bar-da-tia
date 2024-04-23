@@ -2,7 +2,6 @@
 import produtos from '@/config/produtos.json'
 
 import { gerarSlug } from "@/lib/functions"; // Importa a função gerarSlug do diretório específico
-import { ProdutoStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server"; // Importa os tipos NextRequest e NextResponse do módulo next/server
 
 import prisma from '@/lib/prisma'
@@ -26,7 +25,7 @@ export async function POST(req: NextRequest){
                 atacado_minquantidade: item.atacado_minquantidade,
                 promocao_preco: item.promocao_preco,
                 slug: item.slug,
-                status: ['ATIVO', 'DESATIVADO'].includes(item.status) ? item.status as ProdutoStatus : 'ATIVO',
+                status: ['ATIVO', 'DESATIVADO'].includes(item.status) ? item.status : 'ATIVO',
                 vendas: item.vendas,
               },
               select: {

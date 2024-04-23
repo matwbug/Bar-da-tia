@@ -17,12 +17,13 @@ export const PaginaLogin = () => {
     // Função para lidar com o envio do formulário de login
     const handleSubmitLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        if(!/^[a-zA-Z0-9]+(?:[_-]?[a-zA-Z0-9]+)*$/.test(username) && password.length < 3) return null
 
         // Realiza o login usando as credenciais fornecidas
         const result = await signIn('credentials', {
-            redirect: false, 
             username, 
-            password
+            password,
+            redirect: false
         });
 
         // Verifica se o login foi bem-sucedido
@@ -78,6 +79,7 @@ export const PaginaLogin = () => {
                     <p className="text-zinc-700 font-oswald text-lg">Informe seus dados para continuar</p>
                     {/* Formulário de login */}
                     <form className="w-full flex flex-col gap-3 justify-center items-center" onSubmit={handleSubmitLogin}>
+                        {isValid === 'error' && <span className="text-danger-500 text-tiny">Nome de usuário ou senha inválidos, verifique se está informando os dados corretos</span>}
                         <div className="flex flex-col gap-1 w-full justify-center items-center">
                             {/* Input para o nome de usuário */}
                             <Input 
