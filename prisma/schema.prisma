@@ -1,27 +1,135 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Produtos {
-  id                    Int           @id @default(autoincrement())
-  name                  String
-  description           String 
-  slug                  String
-  preco                 Float
-  imageUrl              String
-  quantidade            Int
-  promocao              Boolean
-  promocao_preco        Float
-  atacado               Boolean
-  atacado_minquantidade Int
-  vendas                Int
-  status                String
+enum ItemStatus {
+  ATIVO
+  PENDENTE
+  DESATIVADO
+}
+
+model Item {
+  id                   Int     @id @default(autoincrement())
+  name                 String
+  description          String
+  slug                 String  @unique
+  preco                Float
+  image                String
+  quantidade           Int
+  promocao             Boolean
+  promocaoPreco        Float   @map("promocao_preco")
+  atacado              Boolean
+  atacadoMinQuantidade Int     @map("atacado_min_quantidade")
+  vendas               Int
+  status               ItemStatus
+
+  carts CartItem[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("itens")
+}
+
+model Cart {
+  id Int @id @default(autoincrement())
+
+  itens CartItem[]
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("carts")
+}
+
+model CartItem {
+  id Int @id @default(autoincrement())
+
+  quantity Int
+  total    Float
+
+  itemId Int
+  item   Item @relation(fields: [itemId], references: [id])
+
+  cartId Int
+  cart   Cart @relation(fields: [cartId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("cart_itens")
+}
+
+model Image {
+  id       String @unique @default(uuid())
+  imageUrl String @map("image_url") @db.VarChar(500)
+
+  uploadedById String @map("uploaded_by_id")
+  uploadedBy   User   @relation(fields: [uploadedById], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("images")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Roles {
+  ADMIN
+  USER
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime? @map("email_verified")
+  password      String?
+
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  images        Image[]
+  carts Cart[]
+
+  role      Roles    @default(USER)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([email, id])
+  @@map("users")
 }
