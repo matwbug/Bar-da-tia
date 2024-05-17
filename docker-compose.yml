@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: 'bitnami/postgresql:latest'
+    ports:
+      - '5432:5432'  # Porta do contêiner:Porta do host
+    environment:
+      - POSTGRES_USER=docker  # Nome de usuário do PostgreSQL
+      - POSTGRES_PASSWORD=docker  # Senha do PostgreSQL
+      - POSTGRES_DB=bardatia  # Nome do banco de dados PostgreSQL

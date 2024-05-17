@@ -1,12 +1,12 @@
 'use server'
 
-import { Produtos } from '@prisma/client'
+import { Item } from '@prisma/client'
 import prisma from '@/lib/prisma'
 
 
-export async function getItens(limit?: number): Promise<Produtos[]> {
+export async function getItens(limit?: number): Promise<Item[]> {
     try {
-        const data = await prisma.produtos.findMany({
+        const data = await prisma.item.findMany({
             take: limit,
             where: {
                 status: 'ATIVO'
@@ -23,9 +23,9 @@ export async function getItens(limit?: number): Promise<Produtos[]> {
     } 
 }
 
-export async function getItem(produtoId: number): Promise<Produtos | null> {
+export async function getItem(produtoId: number): Promise<Item | null> {
     try {
-        const data = await prisma.produtos.findUnique({
+        const data = await prisma.item.findUnique({
             where: {
                 id: produtoId
             }
@@ -41,9 +41,9 @@ export async function getItem(produtoId: number): Promise<Produtos | null> {
     }  
 }
 
-export async function getProdutosExceptId(excludedId: number, limit: number): Promise<Produtos[]> {
+export async function getProdutosExceptId(excludedId: number, limit: number): Promise<Item[]> {
     try {
-        const data = await prisma.produtos.findMany({
+        const data = await prisma.item.findMany({
             take: limit,
             where: {
                 NOT: { id: excludedId }
@@ -60,9 +60,9 @@ export async function getProdutosExceptId(excludedId: number, limit: number): Pr
     } 
 }
 
-export async function getItensWithSearch(search: string, limit: number): Promise<Produtos[]> {
+export async function getItensWithSearch(search: string, limit: number): Promise<Item[]> {
     try {
-        const data = await prisma.produtos.findMany({
+        const data = await prisma.item.findMany({
             take: limit,
             where: {
                 OR: [
