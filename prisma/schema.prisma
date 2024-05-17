@@ -43,6 +43,7 @@ model Cart {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -61,7 +62,10 @@ model CartItem {
 
   cartId Int
   cart   Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  item   Item @relation(fields: [itemId], references: [id])
 
+  cartId Int
+  cart   Cart @relation(fields: [cartId], references: [id])
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -128,6 +132,11 @@ model User {
   sessions Session[]
   images   Image[]
   carts    Cart[]
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  images        Image[]
+  carts Cart[]
 
   role      Roles    @default(USER)
   createdAt DateTime @default(now()) @map("created_at")
